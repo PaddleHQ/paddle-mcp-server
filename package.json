@@ -1,0 +1,44 @@
+{
+  "name": "@paddle/paddle-mcp",
+  "version": "0.1.0",
+  "description": "MCP Server for Paddle Billing",
+  "license": "Apache-2.0",
+  "repository": "https://github.com/PaddleHQ/paddle-mcp-server",
+  "main": "build/index.js",
+  "type": "module",
+  "bin": {
+    "paddle": "./build/index.js"
+  },
+  "scripts": {
+    "build": "tsc && node -e \"require('fs').chmodSync('build/index.js', '755')\"",
+    "dev": "tsc --watch",
+    "inspector": "npx @modelcontextprotocol/inspector build/index.js",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
+    "format": "prettier --write src"
+  },
+  "files": [
+    "build"
+  ],
+  "keywords": [
+    "mcp",
+    "modelcontextprotocol",
+    "paddle",
+    "billing"
+  ],
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.7.0",
+    "@paddle/paddle-node-sdk": "^2.5.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.2",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.23.0",
+    "@types/node": "^22.13.12",
+    "eslint": "^9.23.0",
+    "globals": "^16.0.0",
+    "prettier": "^3.5.3",
+    "typescript-eslint": "^8.27.0"
+  }
+}
