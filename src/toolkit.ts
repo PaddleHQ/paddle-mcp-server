@@ -9,7 +9,7 @@ class PaddleMCPServer extends McpServer {
   constructor({ apiKey, environment }: { apiKey: string; environment: string }) {
     super({
       name: "paddle",
-      version: "0.0.1",
+      version: "0.1.2",
     });
 
     this._paddle = new PaddleAPI(apiKey, environment);
