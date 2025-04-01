@@ -6,6 +6,7 @@ Filter products by status, tax category, and type as needed.
 Results are paginated - use the 'after' parameter with the last ID from previous results to get the next page.
 Sort results using orderBy parameter.
 Include related entities like prices if needed.
+Amounts are in the smallest currency unit (e.g., cents).
 `;
 
 export const createProductPrompt = `
@@ -35,6 +36,7 @@ Filter prices by product ID, status, recurring, and type as needed.
 Results are paginated - use the 'after' parameter with the last ID from previous results to get the next page.
 Sort results using orderBy parameter.
 Include related entities like products if needed.
+Amounts are in the smallest currency unit (e.g., cents).
 `;
 
 export const createPricePrompt = `
