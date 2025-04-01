@@ -106,6 +106,7 @@ Filter transactions by billing and creation dates, collection mode, customer ID,
 You can include related information such as addresses, adjustments, adjustment totals, available payment methods, business details, customer data, and discounts when needed.
 Results are paginated - use the 'after' parameter with the last ID from previous results to get the next page.
 Sort results using orderBy parameter.
+Amounts are in the smallest currency unit (e.g., cents).
 `;
 
 export const listSubscriptionsPrompt = `
@@ -115,6 +116,7 @@ Use the maximum perPage by default (200) to ensure comprehensive results.
 Filter subscriptions by address ID, customer ID, price ID, collection mode, scheduled change action, and status as needed. 
 Results are paginated - use the 'after' parameter with the last ID from previous results to get the next page.
 Sort results using orderBy parameter.
+Amounts are in the smallest currency unit (e.g., cents).
 `;
 
 export const createReportPrompt = `
