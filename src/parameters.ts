@@ -232,19 +232,19 @@ export const listTransactionsParameters = z.object({
     .string()
     .optional()
     .describe("Return entities billed at a specific time. Pass an RFC 3339 datetime string."),
-  "billedAt[LT]": z
+  billedAt_lt: z
     .string()
     .optional()
     .describe("Return entities billed before a specific time. Pass an RFC 3339 datetime string."),
-  "billedAt[LTE]": z
+  billedAt_lte: z
     .string()
     .optional()
     .describe("Return entities billed at or before a specific time. Pass an RFC 3339 datetime string."),
-  "billedAt[GT]": z
+  billedAt_gt: z
     .string()
     .optional()
     .describe("Return entities billed after a specific time. Pass an RFC 3339 datetime string."),
-  "billedAt[GTE]": z
+  billedAt_gte: z
     .string()
     .optional()
     .describe("Return entities billed at or after a specific time. Pass an RFC 3339 datetime string."),
@@ -256,19 +256,19 @@ export const listTransactionsParameters = z.object({
     .string()
     .optional()
     .describe("Return entities created at a specific time. Pass an RFC 3339 datetime string."),
-  "createdAt[LT]": z
+  createdAt_lt: z
     .string()
     .optional()
     .describe("Return entities created before a specific time. Pass an RFC 3339 datetime string."),
-  "createdAt[LTE]": z
+  createdAt_lte: z
     .string()
     .optional()
     .describe("Return entities created at or before a specific time. Pass an RFC 3339 datetime string."),
-  "createdAt[GT]": z
+  createdAt_gt: z
     .string()
     .optional()
     .describe("Return entities created after a specific time. Pass an RFC 3339 datetime string."),
-  "createdAt[GTE]": z
+  createdAt_gte: z
     .string()
     .optional()
     .describe("Return entities created at or after a specific time. Pass an RFC 3339 datetime string."),
@@ -320,19 +320,19 @@ export const listTransactionsParameters = z.object({
     .string()
     .optional()
     .describe("Return entities updated at a specific time. Pass an RFC 3339 datetime string."),
-  "updatedAt[LT]": z
+  updatedAt_lt: z
     .string()
     .optional()
     .describe("Return entities updated before a specific time. Pass an RFC 3339 datetime string."),
-  "updatedAt[LTE]": z
+  updatedAt_lte: z
     .string()
     .optional()
     .describe("Return entities updated at or before a specific time. Pass an RFC 3339 datetime string."),
-  "updatedAt[GT]": z
+  updatedAt_gt: z
     .string()
     .optional()
     .describe("Return entities updated after a specific time. Pass an RFC 3339 datetime string."),
-  "updatedAt[GTE]": z
+  updatedAt_gte: z
     .string()
     .optional()
     .describe("Return entities updated at or after a specific time. Pass an RFC 3339 datetime string."),

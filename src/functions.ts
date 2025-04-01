@@ -71,7 +71,8 @@ export const listCustomers = async (paddle: Paddle, params: z.infer<typeof listC
 
 export const listTransactions = async (paddle: Paddle, params: z.infer<typeof listTransactionsParameters>) => {
   try {
-    const transactionCollection = paddle.transactions.list(params);
+    const transformedParams = transformParams(params);
+    const transactionCollection = paddle.transactions.list(transformedParams);
     const transactions = await transactionCollection.next();
     const pagination = paginationData(transactionCollection);
 
@@ -116,4 +117,24 @@ const paginationData = (collection: any) => {
     estimatedTotal: collection.estimatedTotal,
     nextLink: collection.nextLink,
   };
+};
+
+// This is required for time related queries where the time operation is
+// represented in square brackets i.e. createdAt[GTE]
+// See https://developer.paddle.com/api-reference/transactions/list-transactions for examples
+// For whatever reason using the square brackets in the zod schema completely breaks
+// agent mode in Cursor.
+const transformParams = (params: Record<string, unknown>) => {
+  return Object.entries(params).reduce(
+    (acc, [key, value]) => {
+      if (key.includes("_")) {
+        const [base, operator] = key.split("_");
+        acc[`${base}[${operator.toUpperCase()}]`] = value;
+      } else {
+        acc[key] = value;
+      }
+      return acc;
+    },
+    {} as Record<string, unknown>,
+  );
 };
