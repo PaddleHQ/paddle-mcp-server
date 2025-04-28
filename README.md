@@ -24,14 +24,6 @@ To use the MCP server, you'll need an API key. You can create and manage API key
 - Sandbox: https://sandbox-vendors.paddle.com/authentication-v2
 - Live: https://vendors.paddle.com/authentication-v2
 
-You can run the Paddle MCP server using `npx` with the following command:
-
-```bash
-npx -y @paddle/paddle-mcp --api-key=PADDLE_API_KEY --environment=(sandbox|production)
-```
-
-Replace `PADDLE_API_KEY` with your API key, and pass the correct value as `environment`.
-
 To run the server in a client like Claude Desktop, Cursor or Windsurf, add the following to your MCP config:
 
 ```json
@@ -44,6 +36,8 @@ To run the server in a client like Claude Desktop, Cursor or Windsurf, add the f
   }
 }
 ```
+
+Replace `PADDLE_API_KEY` with your API key, and pass the correct value as `environment`.
 
 For detailed setup guides, see:
 
