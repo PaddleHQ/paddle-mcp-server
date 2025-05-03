@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/paddlehq-paddle-mcp-server-badge.png)](https://mseep.ai/app/paddlehq-paddle-mcp-server)
+
 # MCP Server for Paddle Billing
 
 [Paddle Billing](https://www.paddle.com/billing?utm_source=dx&utm_medium=paddle-mcp-server) is the developer-first merchant of record. We take care of payments, tax, subscriptions, and metrics with one unified API that does it all.
