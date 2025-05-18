@@ -8,15 +8,6 @@ This is a [Model Context Protocol (MCP)](https://modelcontextprotocol.io/introdu
 
 ## Features
 
-
-
-## Running evals
-
-The evals package loads an mcp client that then runs the index.ts file, so there is no need to rebuild between tests. You can load environment variables by prefixing the npx command. Full documentation can be found [here](https://www.mcpevals.io/docs).
-
-```bash
-OPENAI_API_KEY=your-key  npx mcp-eval src/evals/evals.ts src/tools.ts
-```
 - List products in your Paddle catalog
 - Create new products
 - List prices for products
@@ -97,6 +88,14 @@ To debug the MCP server, you can use the MCP Inspector tool:
 2. Open the provided URL in your browser to view and debug the MCP requests and responses.
 
 3. Include the `--api-key` and `--environment` arguments.
+
+## Running evals
+
+The evals package loads an mcp client that then runs the index.ts file, so there is no need to rebuild between tests. You can load environment variables by prefixing the npx command. Full documentation can be found [here](https://www.mcpevals.io/docs).
+
+```bash
+OPENAI_API_KEY=your-key  npx mcp-eval src/evals/evals.ts src/tools.ts
+```
 
 ## Learn more
 
