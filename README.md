@@ -6,6 +6,8 @@ This is a [Model Context Protocol (MCP)](https://modelcontextprotocol.io/introdu
 
 > **Important:** This MCP server works with Paddle Billing. It does not support Paddle Classic. To work with Paddle Classic, see: [Paddle Classic API reference](https://developer.paddle.com/classic/api-reference/1384a288aca7a-api-reference?utm_source=dx&utm_medium=paddle-mcp-server)
 
+[![Install MCP Server](https://cursor.com/deeplink/mcp-install-dark.svg)](cursor://anysphere.cursor-deeplink/mcp/install?name=paddle&config=eyJjb21tYW5kIjoibnB4IC15IEBwYWRkbGUvcGFkZGxlLW1jcCIsImVudiI6eyJQQURETEVfQVBJX0tFWSI6InBkbF9zZGJ4X2FwaWtleV8iLCJQQURETEVfRU5WSVJPTk1FTlQiOiJzYW5kYm94In19)
+
 ## Features
 
 - List products in your Paddle catalog
