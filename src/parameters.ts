@@ -21,7 +21,7 @@ export const createProductParameters = z.object({
     .optional()
     .describe("A URL to an image that will be displayed to customers. Must be publicly accessible."),
   customData: z
-    .record(z.any())
+    .record(z.any(), z.any())
     .optional()
     .describe("A JSON object containing custom data. Limited to 50 keys, with key names up to 40 characters long."),
 });
@@ -117,7 +117,7 @@ export const createPriceParameters = z.object({
     .optional()
     .describe("For subscription prices with a trial, defines the trial period duration"),
   customData: z
-    .record(z.any())
+    .record(z.any(), z.any())
     .optional()
     .describe("A JSON object of custom metadata. Limited to 50 keys, with key names up to 40 characters"),
   quantity: z
