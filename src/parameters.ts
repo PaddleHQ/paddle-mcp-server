@@ -1,5 +1,91 @@
 import { z } from "zod";
 
+const currencyCodeEnum = z.enum([
+  "USD", "EUR", "GBP", "JPY", "AUD", "CAD", "CHF", "HKD", "SGD", "SEK",
+  "ARS", "BRL", "CNY", "COP", "CZK", "DKK", "HUF", "ILS", "INR", "KRW",
+  "MXN", "NOK", "NZD", "PLN", "RUB", "THB", "TRY", "TWD", "UAH", "VND", "ZAR"
+]);
+
+const countryCodeEnum = z.enum([
+  "AD", "AE", "AG", "AI", "AL", "AM", "AO", "AR", "AS", "AT", "AU", "AW", "AX", "AZ",
+  "BA", "BB", "BD", "BE", "BF", "BG", "BH", "BI", "BJ", "BL", "BM", "BN", "BO", "BQ",
+  "BR", "BS", "BT", "BV", "BW", "BZ", "CA", "CC", "CG", "CH", "CI", "CK", "CL", "CM",
+  "CN", "CO", "CR", "CV", "CW", "CX", "CY", "CZ", "DE", "DJ", "DK", "DM", "DO", "DZ",
+  "EC", "EE", "EG", "EH", "ER", "ES", "ET", "FI", "FJ", "FK", "FM", "FO", "FR", "GA",
+  "GB", "GD", "GE", "GF", "GG", "GH", "GI", "GL", "GM", "GN", "GP", "GQ", "GR", "GS",
+  "GT", "GU", "GW", "GY", "HK", "HM", "HN", "HR", "HU", "ID", "IE", "IL", "IM", "IN",
+  "IO", "IQ", "IS", "IT", "JE", "JM", "JO", "JP", "KE", "KG", "KH", "KI", "KM", "KN",
+  "KR", "KW", "KY", "KZ", "LA", "LB", "LC", "LI", "LK", "LR", "LS", "LT", "LU", "LV",
+  "MA", "MC", "MD", "ME", "MF", "MG", "MH", "MK", "MN", "MO", "MP", "MQ", "MR", "MS",
+  "MT", "MU", "MV", "MW", "MX", "MY", "MZ", "NA", "NC", "NE", "NF", "NG", "NL", "NO",
+  "NP", "NR", "NU", "NZ", "OM", "PA", "PE", "PF", "PG", "PH", "PK", "PL", "PM", "PN",
+  "PR", "PS", "PT", "PW", "PY", "QA", "RE", "RO", "RS", "RW", "SA", "SB", "SC", "SE",
+  "SG", "SH", "SI", "SJ", "SK", "SL", "SM", "SN", "SR", "ST", "SV", "SX", "SZ", "TC",
+  "TD", "TF", "TG", "TH", "TJ", "TK", "TL", "TM", "TN", "TO", "TR", "TT", "TV", "TW",
+  "TZ", "UA", "UG", "UM", "US", "UY", "UZ", "VA", "VC", "VG", "VI", "VN", "VU", "WF",
+  "WS", "XK", "YT", "ZA", "ZM"
+]);
+
+const moneySchema = z.object({
+  amount: z.string().describe("Amount in the lowest denomination for the currency, e.g. 10 USD = 1000 (cents). Although represented as a string, this value must be a valid integer."),
+  currencyCode: currencyCodeEnum.describe("Supported three-letter ISO 4217 currency code."),
+});
+
+const timePeriodSchema = z.object({
+  interval: z.enum(["day", "week", "month", "year"]).describe("Unit of time."),
+  frequency: z.number().describe("Amount of time. Must be a positive integer."),
+});
+
+const priceQuantitySchema = z.object({
+  minimum: z.number().describe("Minimum quantity of the product related to this price that can be bought. Required if `maximum` set."),
+  maximum: z.number().describe("Maximum quantity of the product related to this price that can be bought. Required if `minimum` set. Must be greater than or equal to the `minimum` value."),
+});
+
+const unitPriceOverrideSchema = z.object({
+  countryCodes: z.array(countryCodeEnum).describe("List of country codes."),
+  unitPrice: moneySchema.describe("Unit price for the country codes."),
+});
+
+const nonCatalogProductSchema = z.object({
+  name: z.string().describe("Name of this product."),
+  taxCategory: z.enum([
+    "digital-goods", "ebooks", "implementation-services", "professional-services",
+    "saas", "software-programming-services", "standard", "training-services", "website-hosting"
+  ]).describe("Tax category for this product. Used for charging the correct rate of tax. Selected tax category must be enabled at account level or an error is returned."),
+  description: z.string().optional().describe("Short description for this product."),
+  imageUrl: z.string().optional().describe("Image for the product. Included in the checkout and on some customer documents."),
+  customData: z.record(z.any(), z.any()).optional().describe("Custom data for the product."),
+});
+
+const nonCatalogPriceSchema = z.union([
+  z.object({
+    description: z.string().describe("Internal description for this price, not shown to customers."),
+    name: z.string().optional().describe("Name of this price, shown to customers at checkout and on invoices. Typically describes how often the related product bills."),
+    unitPrice: moneySchema.describe("Base unit price for the price."),
+    productId: z.string().describe("Paddle ID for the product that this price is for, prefixed with `pro_`."),
+    billingCycle: timePeriodSchema.optional().nullable().describe("How often this price should be charged. `null` if price is non-recurring (one-time)."),
+    trialPeriod: timePeriodSchema.optional().nullable().describe("Trial period for the product related to this price. The billing cycle begins once the trial period is over. `null` for no trial period. Requires `billingCycle`."),
+    taxMode: z.enum(["account_setting", "external", "internal"]).optional().describe("How tax is calculated for this price."),
+    unitPriceOverrides: z.array(unitPriceOverrideSchema).optional().describe("Unit price overrides by country. Used to charge different prices for different countries."),
+    quantity: priceQuantitySchema.optional().describe("Limits on how many times the related product can be purchased at this price. Useful for discount campaigns. If omitted, defaults to 1-100."),
+    customData: z.record(z.any(), z.any()).optional().describe("Any structured custom key-value data needed outside of Paddle's standard fields. Occasionally used by third-parties."),
+    product: z.never().optional(),
+  }),
+  z.object({
+    description: z.string().describe("Internal description for this price, not shown to customers."),
+    name: z.string().optional().describe("Name of this price, shown to customers at checkout and on invoices. Typically describes how often the related product bills."),
+    unitPrice: moneySchema.describe("Base unit price for the price."),
+    product: nonCatalogProductSchema.describe("Product object for a non-catalog item to charge for.."),
+    billingCycle: timePeriodSchema.optional().nullable().describe("How often this price should be charged. `null` if price is non-recurring (one-time)."),
+    trialPeriod: timePeriodSchema.optional().nullable().describe("Trial period for the product related to this price. The billing cycle begins once the trial period is over. `null` for no trial period. Requires `billingCycle`."),
+    taxMode: z.enum(["account_setting", "external", "internal"]).optional().describe("How tax is calculated for this price."),
+    unitPriceOverrides: z.array(unitPriceOverrideSchema).optional().describe("Unit price overrides by country. Used to charge different prices for different countries."),
+    quantity: priceQuantitySchema.optional().describe("Limits on how many times the related product can be purchased at this price. Useful for discount campaigns. If omitted, defaults to 1-100."),
+    customData: z.record(z.any(), z.any()).optional().describe("Any structured custom key-value data needed outside of Paddle's standard fields. Occasionally used by third-parties."),
+    productId: z.never().optional(),
+  }),
+]);
+
 export const listProductsParameters = z.object({
   after: z
     .string()
@@ -1254,7 +1340,20 @@ export const createTransactionParameters = z.object({
       "Time period that this transaction is for. Set automatically by Paddle for subscription renewals to describe the period that charges are for.",
     ),
   items: z
-    .array(z.any())
+    .array(
+      z.union([
+        z.object({
+          priceId: z.string().describe("Paddle ID of an existing catalog price to add to this transaction, prefixed with `pri_`."),
+          quantity: z.number().describe("Quantity of the item to charge for."),
+          price: z.never().optional(),
+        }),
+        z.object({
+          price: nonCatalogPriceSchema.describe("Non-catalog price object."),
+          quantity: z.number().describe("Quantity of the item to charge for."),
+          priceId: z.never().optional(),
+        }),
+      ])
+    )
     .describe(
       "List of items to charge for. Charge for items that have been added to the catalog by passing the Paddle ID of an existing price entity, or charge for non-catalog items by passing a price object. Non-catalog items can be for existing products, or pass a product object as part of the price to charge for a non-catalog product.",
     ),
@@ -1649,7 +1748,22 @@ export const previewTransactionCreateParameters = z.object({
       "Whether trials should be ignored for transaction preview calculations. By default, recurring items with trials are considered to have a zero charge when previewing. Set to `true` to disable this.",
     ),
   items: z
-    .array(z.any())
+    .array(
+      z.union([
+        z.object({
+          priceId: z.string().describe("Paddle ID for the price to preview, prefixed with `pri_`."),
+          quantity: z.number().describe("Quantity of the item to preview."),
+          includeInTotals: z.boolean().optional().describe("Whether to include this item in totals or not. If omitted, defaults to true."),
+          price: z.never().optional(),
+        }),
+        z.object({
+          price: nonCatalogPriceSchema.describe("Non-catalog price object."),
+          quantity: z.number().describe("Quantity of the item to preview."),
+          includeInTotals: z.boolean().optional().describe("Whether to include this item in totals or not. If omitted, defaults to true."),
+          priceId: z.never().optional(),
+        }),
+      ])
+    )
     .describe(
       "List of items to preview charging for. Preview charging for items that have been added to the catalog by passing the Paddle ID of an existing price entity, or preview charging for non-catalog items by passing a price object. Non-catalog items can be for existing products, or pass a product object as part of the price to preview charging for a non-catalog product.",
     ),
@@ -2003,7 +2117,20 @@ export const updateTransactionParameters = z.object({
       "Time period that this transaction is for. Set automatically by Paddle for subscription renewals to describe the period that charges are for.",
     ),
   items: z
-    .array(z.any())
+    .array(
+      z.union([
+        z.object({
+          priceId: z.string().describe("Paddle ID for the price, prefixed with `pri_`."),
+          quantity: z.number().describe("Quantity of the item."),
+          price: z.never().optional(),
+        }),
+        z.object({
+          price: nonCatalogPriceSchema.describe("Non-catalog price object."),
+          quantity: z.number().describe("Quantity of the item."),
+          priceId: z.never().optional(),
+        }),
+      ])
+    )
     .optional()
     .describe(
       "List of items on this transaction. When making a request, each object must contain either a `priceId` or a `price` object, and a `quantity`. Include a `priceId` to charge for an existing catalog item, or a `price` object to charge for a non-catalog item.",
@@ -2047,7 +2174,7 @@ export const reviseTransactionParameters = z.object({
         .string()
         .optional()
         .describe(
-          "Revised tax or VAT number for this transaction. You can't remove a valid tax or VAT number, only replace it with another valid one.",
+          "Revised tax or VAT number for this transaction. A valid tax or VAT number can't be removed, only replaced with another valid one.",
         ),
     })
     .optional()
@@ -2149,7 +2276,13 @@ export const createAdjustmentParameters = z.object({
     .string()
     .describe("Why this adjustment was created. Appears in the Paddle dashboard. Retained for record-keeping purposes."),
   items: z
-    .array(z.any())
+    .array(
+      z.object({
+        itemId: z.string().describe("Paddle ID of the transaction line item to adjust, prefixed with `txnitm_`."),
+        type: z.enum(["full", "partial", "tax", "proration"]).describe("How the adjustment item impacts the related transaction item."),
+        amount: z.string().nullable().describe("Amount adjusted for this transaction item. Required when type is `partial`. null for other types."),
+      })
+    )
     .describe("List of transaction items to adjust. Required if `type` is not populated or set to `partial`."),
 });
 
@@ -2858,7 +2991,10 @@ export const createBusinessParameters = z.object({
   companyNumber: z.string().optional().describe("Company number for this business."),
   taxIdentifier: z.string().optional().describe("Tax or VAT Number for this business."),
   contacts: z
-    .any()
+    .array(z.object({
+      name: z.string().describe("Full name of the contact."),
+      email: z.string().describe("Email address of the contact."),
+    }))
     .optional()
     .describe("List of contacts related to this business, typically used for sending invoices."),
   customData: z.record(z.any(), z.any()).optional().describe("Any structured custom key-value data needed outside of Paddle's standard fields. Occasionally used by third-parties."),
@@ -2877,7 +3013,10 @@ export const updateBusinessParameters = z.object({
   taxIdentifier: z.string().optional().describe("Tax or VAT Number for this business."),
   status: z.enum(["active", "archived"]).optional().describe("Whether this business can be used in Paddle."),
   contacts: z
-    .any()
+    .array(z.object({
+      name: z.string().describe("Full name of the contact."),
+      email: z.string().describe("Email address of the contact."),
+    }))
     .optional()
     .describe("List of contacts related to this business, typically used for sending invoices."),
   customData: z.record(z.any(), z.any()).optional().describe("Any structured custom key-value data needed outside of Paddle's standard fields. Occasionally used by third-parties."),
@@ -3233,8 +3372,6 @@ export const replayNotificationParameters = z.object({
   notificationId: z.string().describe("Paddle ID of the notification."),
 });
 
-export const listSimulationTypesParameters = z.object({});
-
 export const listSimulationsParameters = z.object({
   after: z
     .string()
@@ -3330,12 +3467,12 @@ export const createSimulationParameters = z.object({
     ])
     .describe("Type of event sent by Paddle, in the format `entity.event_type`. Either single events (e.g. 'subscription.created') or scenarios for multiple events (e.g. 'subscription_creation')."),
   payload: z
-    .any()
+    .record(z.string(), z.any())
     .optional()
     .describe(
       "Simulation payload. Pass a JSON object that matches the schema for an event type to simulate a custom payload. If omitted, Paddle populates with a demo example. Only for single event simulations, not scenarios.",
     ),
-    config: z
+  config: z
     .object({
       subscriptionCancellation: z
         .object({
@@ -3614,7 +3751,8 @@ export const updateSimulationParameters = z.object({
     .optional()
     .describe("Type of event sent by Paddle, in the format `entity.event_type`. Either single events (e.g. 'subscription.created') or scenarios for multiple events (e.g. 'subscription_creation')."),
   payload: z
-    .any()
+    .record(z.string(), z.any())
+    .nullable()
     .optional()
     .describe(
       "Simulation payload. Pass a JSON object that matches the schema for an event type to simulate a custom payload. Set to `null` to clear and populate with a demo example. Only for single event simulations, not scenarios.",
@@ -3833,7 +3971,7 @@ export const updateSimulationParameters = z.object({
 });
 
 export const listSimulationRunsParameters = z.object({
-  simulationId: z.string().describe("Paddle ID of the simulation you want to list runs for."),
+  simulationId: z.string().describe("Paddle ID of the simulation to list runs for."),
   after: z
     .string()
     .optional()
@@ -3863,7 +4001,7 @@ export const listSimulationRunsParameters = z.object({
 });
 
 export const createSimulationRunParameters = z.object({
-  simulationId: z.string().describe("Paddle ID of the simulation you want to create a run for."),
+  simulationId: z.string().describe("Paddle ID of the simulation to create a run for."),
 });
 
 export const getSimulationRunParameters = z.object({
@@ -3902,13 +4040,13 @@ export const listSimulationRunEventsParameters = z.object({
 export const getSimulationRunEventParameters = z.object({
   simulationId: z.string().describe("Paddle ID of the simulation entity associated with the run the event was sent as part of."),
   simulationRunId: z.string().describe("Paddle ID of the simulation run entity the event was sent as part of."),
-  simulationEventId: z.string().describe("Paddle ID of the simulation event entity you want to get."),
+  simulationEventId: z.string().describe("Paddle ID of the simulation event entity to get."),
 });
 
 export const replaySimulationRunEventParameters = z.object({
   simulationId: z.string().describe("Paddle ID of the simulation entity associated with the run the event was sent as part of."),
   simulationRunId: z.string().describe("Paddle ID of the simulation run entity the event was sent as part of."),
-  simulationEventId: z.string().describe("Paddle ID of the simulation event entity you want to replay."),
+  simulationEventId: z.string().describe("Paddle ID of the simulation event entity to replay."),
 });
 
 export const getTransactionInvoiceParameters = z.object({
@@ -4042,7 +4180,7 @@ export const createDiscountParameters = z.object({
       "Maximum number of times this discount can be redeemed. This is an overall limit for this discount, rather than a per-customer limit. `null` if this discount can be redeemed an unlimited amount of times. Paddle counts a usage as a redemption on a checkout, transaction, or the initial application against a subscription. Transactions created for subscription renewals, mid-cycle changes, and one-time charges aren't considered a redemption.",
     ),
   restrictTo: z
-    .any()
+    .array(z.string())
     .optional()
     .describe(
       "Product or price IDs that this discount is for. When including a product ID, all prices for that product can be discounted. `null` if this discount applies to all products and prices.",
@@ -4146,7 +4284,7 @@ export const updateDiscountParameters = z.object({
       "Maximum number of times this discount can be redeemed. This is an overall limit for this discount, rather than a per-customer limit. `null` if this discount can be redeemed an unlimited amount of times. Paddle counts a usage as a redemption on a checkout, transaction, or the initial application against a subscription. Transactions created for subscription renewals, mid-cycle changes, and one-time charges aren't considered a redemption.",
     ),
   restrictTo: z
-    .any()
+    .array(z.string())
     .optional()
     .describe(
       "Product or price IDs that this discount is for. When including a product ID, all prices for that product can be discounted. `null` if this discount applies to all products and prices.",
@@ -4259,7 +4397,10 @@ export const updateSubscriptionParameters = z.object({
     .describe("Supported three-letter ISO 4217 currency code."),
   nextBilledAt: z.string().optional().describe("RFC 3339 datetime string."),
   discount: z
-    .any()
+    .object({
+      id: z.string().describe("Paddle ID of the discount, prefixed with `dsc_`."),
+      effectiveFrom: z.enum(["next_billing_period", "immediately"]).describe("When this discount should be applied from. Defaults to `next_billing_period` for active subscriptions, which creates a `scheduled_change` to apply the discount at the end of the billing period."),
+    })
     .optional()
     .describe(
       "Details of the discount applied to this subscription. Include to add a discount to a subscription. `null` to remove a discount.",
@@ -4436,10 +4577,6 @@ export const activateSubscriptionParameters = z.object({
   subscriptionId: z.string().describe("Paddle ID of the subscription."),
 });
 
-export const getSubscriptionUpdatePaymentMethodTransactionParameters = z.object({
-  subscriptionId: z.string().describe("Paddle ID of the subscription."),
-});
-
 export const previewSubscriptionUpdateParameters = z.object({
   subscriptionId: z.string().describe("Paddle ID of the subscription."),
   customerId: z.string().optional().describe("Unique Paddle ID for this customer entity, prefixed with `ctm_`."),
@@ -4488,7 +4625,10 @@ export const previewSubscriptionUpdateParameters = z.object({
     .describe("Supported three-letter ISO 4217 currency code."),
   nextBilledAt: z.string().optional().describe("RFC 3339 datetime string."),
   discount: z
-    .any()
+    .object({
+      id: z.string().describe("Paddle ID of the discount, prefixed with `dsc_`."),
+      effectiveFrom: z.enum(["next_billing_period", "immediately"]).describe("When this discount should be applied from. Defaults to `next_billing_period` for active subscriptions, which creates a `scheduled_change` to apply the discount at the end of the billing period."),
+    })
     .optional()
     .describe(
       "Details of the discount applied to this subscription. Include to add a discount to a subscription. `null` to remove a discount.",
@@ -4696,9 +4836,9 @@ export const listClientSideTokensParameters = z.object({
 export const createClientSideTokenParameters = z.object({
   name: z.string().describe("Name of this client-side token."),
   description: z
-  .string()
-  .optional()
-  .describe("Short description for this client-side token."),
+    .string()
+    .optional()
+    .describe("Short description for this client-side token."),
 });
 
 export const getClientSideTokenParameters = z.object({

@@ -1,9 +1,12 @@
 import { z } from "zod";
 import * as params from "./parameters.js";
 import * as prompts from "./prompts.js";
+import { TOOL_METHODS } from "./constants.js";
+
+export type ToolMethod = (typeof TOOL_METHODS)[keyof typeof TOOL_METHODS];
 
 export type Tool = {
-  method: string;
+  method: ToolMethod;
   name: string;
   description: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -24,6 +27,7 @@ const tools: Tool[] = [
     actions: {
       products: {
         read: true,
+        list: true,
       },
     },
   },
@@ -35,6 +39,7 @@ const tools: Tool[] = [
     actions: {
       products: {
         write: true,
+        create: true,
       },
     },
   },
@@ -46,6 +51,7 @@ const tools: Tool[] = [
     actions: {
       products: {
         read: true,
+        get: true,
       },
     },
   },
@@ -57,6 +63,7 @@ const tools: Tool[] = [
     actions: {
       products: {
         write: true,
+        update: true,
       },
     },
   },
@@ -68,6 +75,7 @@ const tools: Tool[] = [
     actions: {
       prices: {
         read: true,
+        list: true,
       },
     },
   },
@@ -79,6 +87,7 @@ const tools: Tool[] = [
     actions: {
       prices: {
         write: true,
+        create: true,
       },
     },
   },
@@ -90,6 +99,7 @@ const tools: Tool[] = [
     actions: {
       prices: {
         read: true,
+        get: true,
       },
     },
   },
@@ -101,6 +111,7 @@ const tools: Tool[] = [
     actions: {
       prices: {
         write: true,
+        update: true,
       },
     },
   },
@@ -112,6 +123,7 @@ const tools: Tool[] = [
     actions: {
       discounts: {
         read: true,
+        list: true,
       },
     },
   },
@@ -123,6 +135,7 @@ const tools: Tool[] = [
     actions: {
       discounts: {
         write: true,
+        create: true,
       },
     },
   },
@@ -134,6 +147,7 @@ const tools: Tool[] = [
     actions: {
       discounts: {
         read: true,
+        get: true,
       },
     },
   },
@@ -145,6 +159,7 @@ const tools: Tool[] = [
     actions: {
       discounts: {
         write: true,
+        update: true,
       },
     },
   },
@@ -157,6 +172,7 @@ const tools: Tool[] = [
     actions: {
       discountGroups: {
         read: true,
+        list: true,
       },
     },
   },
@@ -168,6 +184,7 @@ const tools: Tool[] = [
     actions: {
       discountGroups: {
         write: true,
+        create: true,
       },
     },
   },
@@ -179,6 +196,7 @@ const tools: Tool[] = [
     actions: {
       discountGroups: {
         read: true,
+        get: true,
       },
     },
   },
@@ -190,6 +208,7 @@ const tools: Tool[] = [
     actions: {
       discountGroups: {
         write: true,
+        update: true,
       },
     },
   },
@@ -201,6 +220,7 @@ const tools: Tool[] = [
     actions: {
       discountGroups: {
         write: true,
+        delete: true,
       },
     },
   },
@@ -213,6 +233,7 @@ const tools: Tool[] = [
     actions: {
       customers: {
         read: true,
+        list: true,
       },
     },
   },
@@ -224,6 +245,7 @@ const tools: Tool[] = [
     actions: {
       customers: {
         write: true,
+        create: true,
       },
     },
   },
@@ -235,6 +257,7 @@ const tools: Tool[] = [
     actions: {
       customers: {
         read: true,
+        get: true,
       },
     },
   },
@@ -246,6 +269,7 @@ const tools: Tool[] = [
     actions: {
       customers: {
         write: true,
+        update: true,
       },
     },
   },
@@ -257,6 +281,7 @@ const tools: Tool[] = [
     actions: {
       addresses: {
         read: true,
+        list: true,
       },
     },
   },
@@ -268,6 +293,7 @@ const tools: Tool[] = [
     actions: {
       addresses: {
         write: true,
+        create: true,
       },
     },
   },
@@ -279,6 +305,7 @@ const tools: Tool[] = [
     actions: {
       addresses: {
         read: true,
+        get: true,
       },
     },
   },
@@ -290,6 +317,7 @@ const tools: Tool[] = [
     actions: {
       addresses: {
         write: true,
+        update: true,
       },
     },
   },
@@ -301,6 +329,7 @@ const tools: Tool[] = [
     actions: {
       businesses: {
         read: true,
+        list: true,
       },
     },
   },
@@ -312,6 +341,7 @@ const tools: Tool[] = [
     actions: {
       businesses: {
         write: true,
+        create: true,
       },
     },
   },
@@ -323,6 +353,7 @@ const tools: Tool[] = [
     actions: {
       businesses: {
         read: true,
+        get: true,
       },
     },
   },
@@ -334,6 +365,7 @@ const tools: Tool[] = [
     actions: {
       businesses: {
         write: true,
+        update: true,
       },
     },
   },
@@ -345,6 +377,7 @@ const tools: Tool[] = [
     actions: {
       transactions: {
         read: true,
+        list: true,
       },
     },
   },
@@ -356,6 +389,7 @@ const tools: Tool[] = [
     actions: {
       transactions: {
         write: true,
+        create: true,
       },
     },
   },
@@ -367,6 +401,7 @@ const tools: Tool[] = [
     actions: {
       transactions: {
         read: true,
+        get: true,
       },
     },
   },
@@ -378,6 +413,7 @@ const tools: Tool[] = [
     actions: {
       transactions: {
         write: true,
+        update: true,
       },
     },
   },
@@ -389,6 +425,7 @@ const tools: Tool[] = [
     actions: {
       pricingpreview: {
         write: true,
+        preview: true,
       },
     },
   },
@@ -400,6 +437,7 @@ const tools: Tool[] = [
     actions: {
       transactions: {
         write: true,
+        preview: true,
       },
     },
   },
@@ -411,6 +449,7 @@ const tools: Tool[] = [
     actions: {
       transactions: {
         write: true,
+        update: true,
       },
     },
   },
@@ -422,6 +461,7 @@ const tools: Tool[] = [
     actions: {
       transactions: {
         read: true,
+        get: true,
       },
     },
   },
@@ -433,6 +473,7 @@ const tools: Tool[] = [
     actions: {
       adjustments: {
         read: true,
+        list: true,
       },
     },
   },
@@ -444,6 +485,7 @@ const tools: Tool[] = [
     actions: {
       adjustments: {
         write: true,
+        create: true,
       },
     },
   },
@@ -455,6 +497,7 @@ const tools: Tool[] = [
     actions: {
       adjustments: {
         read: true,
+        get: true,
       },
     },
   },
@@ -466,6 +509,7 @@ const tools: Tool[] = [
     actions: {
       customers: {
         read: true,
+        list: true,
       },
     },
   },
@@ -478,6 +522,7 @@ const tools: Tool[] = [
     actions: {
       subscriptions: {
         read: true,
+        get: true,
       },
     },
   },
@@ -489,6 +534,7 @@ const tools: Tool[] = [
     actions: {
       subscriptions: {
         write: true,
+        update: true,
       },
     },
   },
@@ -500,6 +546,7 @@ const tools: Tool[] = [
     actions: {
       subscriptions: {
         read: true,
+        list: true,
       },
     },
   },
@@ -511,6 +558,7 @@ const tools: Tool[] = [
     actions: {
       subscriptions: {
         write: true,
+        update: true,
       },
     },
   },
@@ -522,6 +570,7 @@ const tools: Tool[] = [
     actions: {
       subscriptions: {
         write: true,
+        update: true,
       },
     },
   },
@@ -533,6 +582,7 @@ const tools: Tool[] = [
     actions: {
       subscriptions: {
         write: true,
+        update: true,
       },
     },
   },
@@ -544,17 +594,7 @@ const tools: Tool[] = [
     actions: {
       subscriptions: {
         write: true,
-      },
-    },
-  },
-  {
-    method: "update_subscription_payment_method",
-    name: "Get a transaction to update a subscriptions payment method",
-    description: prompts.getSubscriptionUpdatePaymentMethodTransactionPrompt,
-    parameters: params.getSubscriptionUpdatePaymentMethodTransactionParameters,
-    actions: {
-      subscriptions: {
-        read: true,
+        update: true,
       },
     },
   },
@@ -566,6 +606,7 @@ const tools: Tool[] = [
     actions: {
       subscriptions: {
         write: true,
+        preview: true,
       },
     },
   },
@@ -577,6 +618,7 @@ const tools: Tool[] = [
     actions: {
       subscriptions: {
         write: true,
+        create: true,
       },
     },
   },
@@ -588,6 +630,7 @@ const tools: Tool[] = [
     actions: {
       subscriptions: {
         write: true,
+        preview: true,
       },
     },
   },
@@ -599,6 +642,7 @@ const tools: Tool[] = [
     actions: {
       savedPaymentMethods: {
         read: true,
+        list: true,
       },
     },
   },
@@ -610,6 +654,7 @@ const tools: Tool[] = [
     actions: {
       savedPaymentMethods: {
         read: true,
+        get: true,
       },
     },
   },
@@ -621,6 +666,7 @@ const tools: Tool[] = [
     actions: {
       savedPaymentMethods: {
         write: true,
+        delete: true,
       },
     },
   },
@@ -632,6 +678,7 @@ const tools: Tool[] = [
     actions: {
       customerPortalSessions: {
         write: true,
+        create: true,
       },
     },
   },
@@ -643,6 +690,7 @@ const tools: Tool[] = [
     actions: {
       notificationSettings: {
         read: true,
+        list: true,
       },
     },
   },
@@ -654,6 +702,7 @@ const tools: Tool[] = [
     actions: {
       notificationSettings: {
         write: true,
+        create: true,
       },
     },
   },
@@ -665,6 +714,7 @@ const tools: Tool[] = [
     actions: {
       notificationSettings: {
         read: true,
+        get: true,
       },
     },
   },
@@ -676,6 +726,7 @@ const tools: Tool[] = [
     actions: {
       notificationSettings: {
         write: true,
+        update: true,
       },
     },
   },
@@ -687,6 +738,7 @@ const tools: Tool[] = [
     actions: {
       notificationSettings: {
         write: true,
+        delete: true,
       },
     },
   },
@@ -698,6 +750,7 @@ const tools: Tool[] = [
     actions: {
       events: {
         read: true,
+        list: true,
       },
     },
   },
@@ -709,6 +762,7 @@ const tools: Tool[] = [
     actions: {
       notifications: {
         read: true,
+        list: true,
       },
     },
   },
@@ -720,6 +774,7 @@ const tools: Tool[] = [
     actions: {
       notifications: {
         read: true,
+        get: true,
       },
     },
   },
@@ -731,6 +786,7 @@ const tools: Tool[] = [
     actions: {
       notificationLogs: {
         read: true,
+        list: true,
       },
     },
   },
@@ -742,6 +798,7 @@ const tools: Tool[] = [
     actions: {
       notifications: {
         write: true,
+        create: true,
       },
     },
   },
@@ -753,6 +810,7 @@ const tools: Tool[] = [
     actions: {
       simulations: {
         read: true,
+        list: true,
       },
     },
   },
@@ -764,6 +822,7 @@ const tools: Tool[] = [
     actions: {
       simulations: {
         write: true,
+        create: true,
       },
     },
   },
@@ -775,6 +834,7 @@ const tools: Tool[] = [
     actions: {
       simulations: {
         read: true,
+        get: true,
       },
     },
   },
@@ -786,6 +846,7 @@ const tools: Tool[] = [
     actions: {
       simulations: {
         write: true,
+        update: true,
       },
     },
   },
@@ -797,6 +858,7 @@ const tools: Tool[] = [
     actions: {
       simulationRuns: {
         read: true,
+        list: true,
       },
     },
   },
@@ -808,6 +870,7 @@ const tools: Tool[] = [
     actions: {
       simulationRuns: {
         write: true,
+        create: true,
       },
     },
   },
@@ -819,6 +882,7 @@ const tools: Tool[] = [
     actions: {
       simulationRuns: {
         read: true,
+        get: true,
       },
     },
   },
@@ -830,6 +894,7 @@ const tools: Tool[] = [
     actions: {
       simulationRunEvents: {
         read: true,
+        list: true,
       },
     },
   },
@@ -841,6 +906,7 @@ const tools: Tool[] = [
     actions: {
       simulationRunEvents: {
         read: true,
+        get: true,
       },
     },
   },
@@ -852,6 +918,7 @@ const tools: Tool[] = [
     actions: {
       simulationRunEvents: {
         write: true,
+        replay: true,
       },
     },
   },
@@ -863,6 +930,7 @@ const tools: Tool[] = [
     actions: {
       reports: {
         read: true,
+        list: true,
       },
     },
   },
@@ -874,6 +942,7 @@ const tools: Tool[] = [
     actions: {
       reports: {
         write: true,
+        create: true,
       },
     },
   },
@@ -885,6 +954,7 @@ const tools: Tool[] = [
     actions: {
       reports: {
         read: true,
+        get: true,
       },
     },
   },
@@ -896,6 +966,7 @@ const tools: Tool[] = [
     actions: {
       reports: {
         read: true,
+        get: true,
       },
     },
   },
@@ -907,6 +978,7 @@ const tools: Tool[] = [
     actions: {
       clientSideTokens: {
         read: true,
+        list: true,
       },
     },
   },
@@ -918,6 +990,7 @@ const tools: Tool[] = [
     actions: {
       clientSideTokens: {
         write: true,
+        create: true,
       },
     },
   },
@@ -929,6 +1002,7 @@ const tools: Tool[] = [
     actions: {
       clientSideTokens: {
         read: true,
+        get: true,
       },
     },
   },
@@ -940,6 +1014,7 @@ const tools: Tool[] = [
     actions: {
       clientSideTokens: {
         write: true,
+        delete: true,
       },
     },
   },

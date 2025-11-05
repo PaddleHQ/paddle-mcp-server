@@ -1,10 +1,18 @@
+const checkBeforeWarning = `
+Don't use this tool without checking with the user first. Avoid using before gaining explicit approval.
+`;
+
+const additionalDetailsWarning = `
+Ensure you have all the information needed before making the call. Don't fabricate, imagine, or infer details and parameter values unless explicitly asked to. If anything is ambiguous, unknown, or unclear, ask the user for clarification or details before you proceed.
+`;
+
 export const listProductsPrompt = `
 This tool will list products in the account's catalog.
 
 Use the maximum perPage by default (200) to ensure comprehensive results.
 Filter products by id, status, taxCategory, and type as needed.
 Results are paginated - use the 'after' parameter with the last ID from previous results to get the next page.
-Sort results using orderBy parameter.
+Sort and order results using the orderBy parameter.
 Amounts are in the smallest currency unit (e.g., cents).
 
 Use the include parameter to include related entities in the response:
@@ -33,6 +41,8 @@ When selecting a taxCategory, choose the one that best describes the product:
 
 The tax category affects how taxes are calculated in different jurisdictions. Choose carefully as it impacts customers' tax rates.
 When using the standard tax category, remind the user to review the tax category in the Paddle dashboard.
+
+${additionalDetailsWarning}
 
 If successful, the response includes a copy of the new product entity. Once a product has been created, relate it to a price.
 `;
@@ -70,6 +80,8 @@ When selecting taxCategory, choose the one that best describes the product:
 The tax category affects how taxes are calculated in different jurisdictions. Choose carefully as it impacts customers' tax rates.
 When using the standard tax category, remind the user to review the tax category in the Paddle dashboard.
 
+${additionalDetailsWarning}
+
 If successful, the response includes a copy of the updated product entity.
 `;
 
@@ -79,7 +91,7 @@ This tool will list prices in the account's catalog.
 Use the maximum perPage by default (200) to ensure comprehensive results.
 Filter prices by id, productId, status, recurring, and type as needed.
 Results are paginated - use the 'after' parameter with the last ID from previous results to get the next page.
-Sort results using orderBy parameter.
+Sort and order results using the orderBy parameter.
 Amounts are in the smallest currency unit (e.g., cents).
 
 Use the include parameter to include related entities in the response:
@@ -150,6 +162,8 @@ Example unitPriceOverrides structure:
     }
   }
 ]
+
+${additionalDetailsWarning}
 
 If successful, the response includes a copy of the new price entity.
 `;
@@ -222,6 +236,8 @@ Example unitPriceOverrides structure:
   }
 ]
 
+${additionalDetailsWarning}
+
 If successful, the response includes a copy of the updated price entity.
 `;
 
@@ -231,7 +247,7 @@ This tool will list transactions in Paddle.
 Use the maximum perPage by default (30) to ensure comprehensive results.
 Filter transactions by billedAt, collectionMode, createdAt, customerId, id, invoiceNumber, origin, status, subscriptionId, and updatedAt as needed.
 Results are paginated - use the 'after' parameter with the last ID from previous results to get the next page.
-Sort results using orderBy parameter.
+Sort and order results using the orderBy parameter.
 Amounts are in the smallest currency unit (e.g., cents).
 
 Use the include parameter to include related entities in the response:
@@ -263,6 +279,8 @@ Transactions have a status that determines the current state of the transaction:
 export const createTransactionPrompt = `
 This tool will create a new transaction in Paddle.
 
+${checkBeforeWarning}
+
 The collectionMode against a transaction determines how Paddle tries to collect for payment:
 
 - Manually-collected transactions are for sales-assisted billing. Paddle sends an invoice to the customer when a transaction is billed. Payment is often by wire transfer. Requires billingDetails, and an address which has country, postalCode, region, city, and firstLine.
@@ -287,6 +305,10 @@ Use the include parameter to include related entities in the response:
 - business: An object for the business entity related to this transaction. Only returned if a business is set against the transaction with businessId.
 - customer: An object for the customer entity related to this transaction. Only returned if a customer is set against the transaction with customerId.
 - discount: An object for the discount entity related to this transaction. Only returned if a discount is set against the transaction with discount or discountId.
+
+${additionalDetailsWarning}
+
+Consider using the preview_transaction_create tool to preview and confirm the transaction before creating it.
 
 If successful, the response includes a copy of the new transaction entity.
 `;
@@ -359,6 +381,8 @@ Transactions have a status that determines the current state of the transaction:
 export const updateTransactionPrompt = `
 This tool will update a transaction in Paddle by its ID.
 
+${checkBeforeWarning}
+
 Update transactions that are draft or ready. billed and completed transactions are considered records for tax and legal purposes, so they can't be changed. Either:
 
 - Create an adjustment to record a refund or credit for a transaction.
@@ -384,13 +408,17 @@ If changing the collection mode from automatic to manual, always first:
 - Check the customer has an address. If not, get and then set an address for the customer with a country, postalCode, region, city, and firstLine.
 - Check the currencyCode of the subscription is USD, GBP, or EUR. If not, get which currency is preferred and then change the currency of the subscription to the preferred currency.
 
+${additionalDetailsWarning}
+
 If successful, the response includes a copy of the updated transaction entity.
 `;
 
 export const reviseTransactionPrompt = `
 This tool will revise customer information for a billed or completed transaction where the customer information is incorrect and needs to be rectified on invoice documents generated by Paddle.
 
-Revise transaction details that don't impact the tax rates on a transaction. This includes:
+${checkBeforeWarning}
+
+Details that don't impact the tax rates on a transaction can be revised. This includes:
 
 - Customer name
 - Business name and tax or VAT number (taxIdentifier)
@@ -402,6 +430,8 @@ Transactions can only be revised once.
 
 Only the customer information for this transaction is updated. The related customer, address, and business entities aren't updated.
 
+${additionalDetailsWarning}
+
 If successful, the response includes a copy of the transaction entity. Get a transaction using the include parameter with the customer, address, and business values to see the revised customer information.
 `;
 
@@ -411,7 +441,7 @@ This tool will list adjustments in Paddle.
 Use the maximum perPage by default (50) to ensure comprehensive results.
 Filter adjustments by action, customerId, status, subscriptionId, transactionId, and id as needed.
 Results are paginated - use the 'after' parameter with the last ID from previous results to get the next page.
-Sort results using orderBy parameter.
+Sort and order results using the orderBy parameter.
 
 Amounts are in the smallest currency unit (e.g., cents).
 
@@ -430,6 +460,8 @@ export const createAdjustmentPrompt = `
 This tool will create an adjustment to refund or credit all or part of a transaction and its items. 
 
 Billed transactions are considered financial records for tax and legal purposes, so they can't be changed. Adjustments record actions that impact revenue for a transaction after it's been billed.
+
+${checkBeforeWarning}
 
 The transaction ID and the IDs of any transaction items (details.lineItems[].id) are required to create a refund or credit.
 
@@ -453,6 +485,8 @@ When selecting taxMode, choose the one that best describes how the tax should be
 - internal: Amounts are inclusive of tax. Common in countries like the United States and Canada.
 
 Creating an adjustment for a transaction that has a refund that's pending approval isn't possible.
+
+${additionalDetailsWarning}
 
 If successful, the response includes a copy of the new adjustment entity.
 `;
@@ -496,7 +530,7 @@ This tool will list customers in Paddle.
 Use the maximum perPage by default (200) to ensure comprehensive results.
 Filter customers by email, id, search (fuzzy search on the customer's name), and status as needed.
 Results are paginated - use the 'after' parameter with the last ID from previous results to get the next page.
-Sort results using orderBy parameter.
+Sort and order results using the orderBy parameter.
 `;
 
 export const createCustomerPrompt = `
@@ -508,6 +542,8 @@ Customers have two sub-entities:
 
 - addresses: Customers require an address to make a purchase, which can be created through the create_address tool. Can have multiple addresses.
 - businesses: Customers can optionally be associated with businesses, which can be created through the create_business tool.
+
+${additionalDetailsWarning}
 
 If successful, the response includes a copy of the new customer entity.
 `;
@@ -524,6 +560,8 @@ There's no delete operation for customers. Instead, archive them. Options are:
 - active: Entity is active and can be used.
 - archived: Entity is archived, so can't be used.
 
+${additionalDetailsWarning}
+
 If successful, the response includes a copy of the updated customer entity.
 `;
 
@@ -533,7 +571,7 @@ This tool will list addresses for a customer in Paddle.
 Use the maximum perPage by default (200) to ensure comprehensive results.
 Filter addresses by id, search (fuzzy search on the address's street, city, state, postalCode, or country), and status as needed.
 Results are paginated - use the 'after' parameter with the last ID from previous results to get the next page.
-Sort results using orderBy parameter.
+Sort and order results using the orderBy parameter.
 `;
 
 export const createAddressPrompt = `
@@ -542,6 +580,8 @@ This tool will create a new address for a customer in Paddle.
 Address entities hold billing address information for a customer. Customers must have an address to make a purchase. A transaction can be created without an address, but it can't go past a status of draft until an address is added.
 
 To make buying as frictionless as possible, Paddle only requires a country. For tax calculation, fraud prevention, and compliance purposes, postalCode is required when creating addresses for some countries, like ZIP codes in the USA and postcodes in the UK.
+
+${additionalDetailsWarning}
 
 If successful, the response includes a copy of the new address entity.
 `;
@@ -558,6 +598,8 @@ There's no delete operation for addresses. Instead, archive them. Options are:
 - active: Entity is active and can be used.
 - archived: Entity is archived, so can't be used.
 
+${additionalDetailsWarning}
+
 If successful, the response includes a copy of the updated address entity.
 `;
 
@@ -567,13 +609,15 @@ This tool will list businesses for a customer in Paddle.
 Use the maximum perPage by default (200) to ensure comprehensive results.
 Filter businesses by id, search (fuzzy search on the business's name or tax or VAT number), and status as needed.
 Results are paginated - use the 'after' parameter with the last ID from previous results to get the next page.
-Sort results using orderBy parameter.
+Sort and order results using the orderBy parameter.
 `;
 
 export const createBusinessPrompt = `
 This tool will create a new business for a customer in Paddle.
 
 Business entities hold business information for a customer when working with a business rather than an individual. Customers do not need to have a business to make a purchase, but should if working with a business.
+
+${additionalDetailsWarning}
 
 If successful, the response includes a copy of the new business entity.
 `;
@@ -590,6 +634,8 @@ There's no delete operation for businesses. Instead, archive them. Options are:
 - active: Entity is active and can be used.
 - archived: Entity is archived, so can't be used.
 
+${additionalDetailsWarning}
+
 If successful, the response includes a copy of the updated business entity.
 `;
 
@@ -601,7 +647,7 @@ These are payment methods saved by the customer at checkout to be presented for 
 Use the maximum perPage by default (200) to ensure comprehensive results.
 Filter payment methods by addressId and supportsCheckout as needed.
 Results are paginated - use the 'after' parameter with the last ID from previous results to get the next page.
-Sort results using orderBy parameter.
+Sort and order results using the orderBy parameter.
 `;
 
 export const getSavedPaymentMethodPrompt = `
@@ -613,12 +659,13 @@ These are payment methods saved by the customer at checkout to be presented for 
 export const deleteSavedPaymentMethodPrompt = `
 This tool will delete a customer payment method using its ID.
 
-These are payment methods saved by the customer at checkout to be presented for future purchases. They aren't payment methods stored for transactions related to a recurring subscription. Deleting payment methods stored for subscriptions isn't possible. They must be updated by an authenticated customer using the customer portal (create_customer_portal_session tool) or by using the update_subscription_payment_method tool and either using the returned checkout.url or passing the transaction to Paddle.js. The implementation of Paddle.js would need to make a call to the Paddle API to generate an authentication token and pass it to checkout in order for Paddle.js to work.
+These are payment methods saved by the customer at checkout to be presented for future purchases. They aren't payment methods stored for transactions related to a recurring subscription. Deleting payment methods stored for subscriptions isn't possible. They must be updated by an authenticated customer using the customer portal (create_customer_portal_session tool) or by using an implementation of the Paddle checkout set up to allow customers to update their payment methods.
+
+${checkBeforeWarning}
 
 When a customer payment method is deleted, it's permanently removed from that customer. There's no way to recover a deleted payment method.
 `;
 
-// TODO / DECIDE: Does this have usage yet until remote MCP? Should still be secure as it's local and no customer access for now?
 export const createCustomerPortalSessionPrompt = `
 This tool will create a customer portal session for a customer in Paddle.
 
@@ -630,6 +677,8 @@ The customer portal is a secure, Paddle-hosted site that allows customers and au
 - Update stored payment methods for subscriptions
 - Manage their subscriptions including cancellations
 - Revise details on completed transactions
+
+${checkBeforeWarning}
 
 Authenticated links are returned which automatically sign in the customer. Ensure those creating a customer portal session are authorized to access the customer portal.
 
@@ -643,7 +692,6 @@ Provide subscriptionIds to return urls.subscriptions[] to manage one or more sub
 If subscriptions are paused or canceled, links open the overview page for a subscription.
 
 If successful, the response includes a copy of the new customer portal session entity with the urls to open up the customer portal for access. Customer portal sessions are temporary and shouldn't be cached.
-
 `;
 
 export const listNotificationSettingsPrompt = `
@@ -652,7 +700,7 @@ This tool will list notification settings in Paddle.
 Use the maximum perPage by default (200) to ensure comprehensive results.
 Filter notification settings by active and trafficSource as needed.
 Results are paginated - use the 'after' parameter with the last ID from previous results to get the next page.
-Sort results using orderBy parameter.
+Sort and order results using the orderBy parameter.
 
 The endpointSecretKey is returned for webhook signature verification, but is a secure value and should never be shared, never be made publicly-accessible, and should only be stored securely.
 `;
@@ -711,6 +759,8 @@ If successful, the response includes a copy of the updated notification setting 
 export const deleteNotificationSettingPrompt = `
 This tool will delete a notification setting (notification destination) using its ID.
 
+${checkBeforeWarning}
+
 When deleting a notification setting, it's permanently removed from the account. Paddle stops sending events to the destination, and access is lost to all the logs for this notification setting.
 
 There's no way to recover a deleted notification setting. Deactivate a notification setting using the update_notification_setting tool if log access is required or it needs to be reactivated later on.
@@ -728,7 +778,7 @@ Notifications older than 90 days aren't retained and won't be returned.
 Use the maximum perPage by default (200) to ensure comprehensive results.
 Filter notifications by notificationSettingId, search (fuzzy search on the event's type or id), status, filter (pass a transaction, customer, or subscription ID), to, and from as needed.
 Results are paginated - use the 'after' parameter with the last ID from previous results to get the next page.
-Sort results using orderBy parameter.
+Sort and order results using the orderBy parameter.
 
 Check the following details to understand the success or failure of the notification delivery according to Paddle and debug issues:
 
@@ -771,6 +821,8 @@ Check the following details to understand the success or failure of the notifica
 
 export const replayNotificationPrompt = `
 This tool will resend a delivered or failed notification, like a webhook notification, using its ID.
+
+${checkBeforeWarning}
 
 Paddle creates a new notification entity for the replay, related to the same eventId. The response includes the new notificationId of the created notification.
 
@@ -823,7 +875,7 @@ Some actions might create multiple events. For example, resuming a subscription 
 
 Use the maximum perPage by default (200) to ensure comprehensive results.
 Results are paginated - use the 'after' parameter with the last ID from previous results to get the next page.
-Sort results using orderBy parameter.
+Sort and order results using the orderBy parameter.
 `;
 
 export const listSimulationsPrompt = `
@@ -834,7 +886,7 @@ These are the configurations for simulations, as opposed to the simulation runs 
 Use the maximum perPage by default (200) to ensure comprehensive results.
 Filter simulations by notificationSettingId, id, and status as needed.
 Results are paginated - use the 'after' parameter with the last ID from previous results to get the next page.
-Sort results using orderBy parameter.
+Sort and order results using the orderBy parameter.
 `;
 
 export const createSimulationPrompt = `
@@ -935,7 +987,7 @@ This tool will list simulation runs in Paddle.
 Use the maximum perPage by default (200) to ensure comprehensive results.
 Filter simulationRuns by id as needed.
 Results are paginated - use the 'after' parameter with the last ID from previous results to get the next page.
-Sort results using orderBy parameter.
+Sort and order results using the orderBy parameter.
 
 Use the include parameter to include related entities in the response:
 
@@ -964,7 +1016,7 @@ This tool will list simulation run events in Paddle.
 Use the maximum perPage by default (200) to ensure comprehensive results.
 Filter simulationRunEvents by id as needed.
 Results are paginated - use the 'after' parameter with the last ID from previous results to get the next page.
-Sort results using orderBy parameter.
+Sort and order results using the orderBy parameter.
 
 Check the following details to understand the success or failure of the event according to Paddle and debug issues:
 
@@ -1040,7 +1092,7 @@ This tool will list discounts in the account's catalog.
 Use the maximum perPage by default (200) to ensure comprehensive results.
 Filter discounts by code, id, status, and mode as needed.
 Results are paginated - use the 'after' parameter with the last ID from previous results to get the next page.
-Sort results using orderBy parameter.
+Sort and order results using the orderBy parameter.
 
 Amounts are in the smallest currency unit (e.g., cents).
 `;
@@ -1064,6 +1116,8 @@ When selecting mode, choose the one that best describes the use case:
 
 - standard: Standard discount. Can be considered part of the listed catalog and reused across transactions and subscriptions easily.
 - custom: Non-catalog discount. Custom, one-off discounts. Includes checkout recovery discounts. Not returned when listing or shown in the Paddle dashboard.
+
+${additionalDetailsWarning}
 
 If successful, the response includes a copy of the new discount entity. Discounts can be applied to transactions, subscriptions, or passed to checkout through Paddle.js.
 `;
@@ -1093,6 +1147,8 @@ When selecting mode, choose the one that best describes the use case:
 - standard: Standard discount. Can be considered part of the catalog and reused across transactions and subscriptions easily.
 - custom: Non-catalog discount. Custom, one-off discounts. Includes checkout recovery discounts. Not returned when listing or shown in the Paddle dashboard.
 
+${additionalDetailsWarning}
+
 If successful, the response includes a copy of the updated discount entity.
 `;
 
@@ -1103,13 +1159,15 @@ This tool will list discount groups in the account's catalog.
 Use the maximum perPage by default (200) to ensure comprehensive results.
 Filter discount groups by id as needed.
 Results are paginated - use the 'after' parameter with the last ID from previous results to get the next page.
-Sort results using orderBy parameter.
+Sort and order results using the orderBy parameter.
 `;
 
 export const createDiscountGroupPrompt = `
 This tool will create a new discount group in Paddle.
 
 Discount groups are used to organize and manage related discounts under a group name. Create one when managing multiple discounts together, like for a campaign, promotion, or team.
+
+${additionalDetailsWarning}
 
 If successful, the response includes a copy of the new discount group entity.
 `;
@@ -1128,11 +1186,15 @@ There's no delete operation for discount groups. Instead, archive them. Choose:
 
 Archiving a discount group doesn't affect the associated discounts - they remain active and can still be used.
 
+${additionalDetailsWarning}
+
 If successful, the response includes a copy of the updated discount group entity.
 `;
 
 export const archiveDiscountGroupPrompt = `
 This tool will archive a discount group using its ID.
+
+${checkBeforeWarning}
 
 Discount groups can't be deleted, only archived. This is useful when cleaning up old, unused, or inactive discount groups.
 
@@ -1154,6 +1216,8 @@ This tool will update a subscription in Paddle by its ID.
 Use this tool to update the items, the next billing date, or the collection mode on a subscription. To add items which should be charged only one-time and aren't recurring, use the create_subscription_charge tool. To update the payment method on a subscription, use the create_customer_portal_session tool and pass the returned urls.subscriptions[].updateSubscriptionPaymentMethod URL so the user can update manually.
 
 Use this tool to remove any scheduled changes (cancellations, pauses, or resumes). To create a scheduled change on a subscription, use the pause_subscription, cancel_subscription, and resume_subscription tools respectively.
+
+${checkBeforeWarning}
 
 Send the complete list of items to include on the subscription - including existing items. If items are omitted, they're removed from the subscription. Fetch the existing subscription using the get_subscription tool to extract all items currently on the subscription.
 
@@ -1195,6 +1259,8 @@ When selecting onPaymentFailure, choose the one that best describes how Paddle s
 
 Test any changes before making them with the preview_subscription_update tool to confirm the changes are as expected.
 
+${additionalDetailsWarning}
+
 If successful, the response includes a copy of the updated subscription entity. An immediate charge results in payment processing.
 `;
 
@@ -1204,13 +1270,15 @@ This tool will list subscriptions in Paddle.
 Use the maximum perPage by default (200) to ensure comprehensive results.
 Filter subscriptions by addressId, collectionMode, customerId, id, priceId, scheduledChangeAction, and status as needed.
 Results are paginated - use the 'after' parameter with the last ID from previous results to get the next page.
-Sort results using orderBy parameter.
+Sort and order results using the orderBy parameter.
 
 Amounts are in the smallest currency unit (e.g., cents).
 `;
 
 export const cancelSubscriptionPrompt = `
 This tool will cancel a subscription using its ID.
+
+${checkBeforeWarning}
 
 Subscriptions describe an ongoing financial relationship with a customer, so they can't be deleted. Instead, cancel them.
 
@@ -1226,6 +1294,8 @@ If successful, the response includes a copy of the updated subscription entity. 
 export const pauseSubscriptionPrompt = `
 This tool will pause a subscription using its ID.
 
+${checkBeforeWarning}
+
 By default, subscriptions are paused at the end of the billing period. When sending a request to pause, Paddle creates a scheduledChange against the subscription entity to say that it should pause at the end of the current billing period. Its status remains active until after the effective date of the scheduled change, at which point it changes to paused.
 
 Pausing a subscription right away by including effectiveFrom in the request, setting the value to immediately is possible.
@@ -1237,6 +1307,8 @@ If successful, the response includes a copy of the updated subscription entity. 
 
 export const resumeSubscriptionPrompt = `
 This tool will resume a paused subscription using its ID. Only paused subscriptions can be resumed. If an active subscription has a scheduled change to pause in the future, use this operation to set or change the resume date.
+
+${checkBeforeWarning}
 
 Resuming a canceled subscription isn't possible.
 
@@ -1254,23 +1326,13 @@ If successful, the response includes a copy of the updated subscription entity:
 export const activateSubscriptionPrompt = `
 This tool will activate a trialing subscription using its ID. Only automatically-collected subscriptions where the status is trialing can be activated.
 
+${checkBeforeWarning}
+
 On activation, Paddle bills for a subscription immediately. Subscription billing dates are recalculated based on the activation date (the time the activation request is made).
 
 This operation results in an immediate charge, so responses may take longer than usual while a payment attempt is processed.
 
 If successful, the response includes a copy of the updated subscription entity. The subscription status is active, and billing dates are updated to reflect the activation date.
-`;
-
-// TODO / DECIDE: is this necessary for MCP as it needs to be passed to Paddle.js? Is there any use-case over using a customer portal session?
-export const getSubscriptionUpdatePaymentMethodTransactionPrompt = `
-This tool will retrieve a transaction for updating payment details for a subscription. Only works for subscriptions where collectionMode is automatic.
-
-A checkout must be opened to update the payment details. Send the returned checkout.url, or remind the user to open up a checkout using the transaction ID with Paddle.js.
-
-The transaction returned depends on the status of the related subscription:
-
-- Where a subscription is past_due, it returns the most recent past_due transaction.
-- Where a subscription is active, it creates a new zero amount transaction for the items on a subscription.
 `;
 
 export const previewSubscriptionUpdatePrompt = `
@@ -1285,6 +1347,8 @@ If successful, the response includes immediateTransaction, nextTransaction, and 
 
 export const createSubscriptionChargePrompt = `
 This tool will create a one-time charge for a subscription in Paddle. Use to bill non-recurring items to a subscription. Non-recurring items are price entities where the billingCycle is null.
+
+${checkBeforeWarning}
 
 When selecting effectiveFrom, choose the one that best describes when the one-time charges should be billed:
 
@@ -1303,6 +1367,8 @@ Once created, to get details of a one-time charge:
 
 When an update results in an immediate charge, responses may take longer than usual while a payment attempt is processed.
 
+${additionalDetailsWarning}
+
 If successful, the response includes a copy of the updated subscription entity. However, one-time charges aren't held against the subscription entity, so the charges billed aren't returned in the response.
 `;
 
@@ -1320,7 +1386,7 @@ This tool will list reports in Paddle.
 Use the maximum perPage by default (200) to ensure comprehensive results.
 Filter reports by status as needed.
 Results are paginated - use the 'after' parameter with the last ID from previous results to get the next page.
-Sort results using orderBy parameter.
+Sort and order results using the orderBy parameter.
 
 Amounts are in the smallest currency unit (e.g., cents).
 `;
@@ -1386,7 +1452,7 @@ Client-side tokens are needed to authenticate with Paddle.js. A token is provide
 Use the maximum perPage by default (200) to ensure comprehensive results.
 Filter client-side tokens by status as needed.
 Results are paginated - use the 'after' parameter with the last ID from previous results to get the next page.
-Sort results using orderBy parameter.
+Sort and order results using the orderBy parameter.
 
 The returned token field is the client-side token that needs to be provided when initializing Paddle.js. Can be exposed client-side safely. If it starts with:
 

@@ -561,18 +561,6 @@ export const replayNotification = async (
   }
 };
 
-export const listSimulationTypes = async (
-  paddle: Paddle,
-  _params: z.infer<typeof Parameters.listSimulationTypesParameters>,
-) => {
-  try {
-    const result = await paddle.simulationTypes.list();
-    return result;
-  } catch (error) {
-    return error;
-  }
-};
-
 export const listSimulations = async (paddle: Paddle, params: z.infer<typeof Parameters.listSimulationsParameters>) => {
   try {
     const collection = paddle.simulations.list(params);
@@ -905,19 +893,6 @@ export const activateSubscription = async (
   try {
     const { subscriptionId } = params;
     const subscription = await paddle.subscriptions.activate(subscriptionId);
-    return subscription;
-  } catch (error) {
-    return error;
-  }
-};
-
-export const getSubscriptionUpdatePaymentMethodTransaction = async (
-  paddle: Paddle,
-  params: z.infer<typeof Parameters.getSubscriptionUpdatePaymentMethodTransactionParameters>,
-) => {
-  try {
-    const { subscriptionId } = params;
-    const subscription = await paddle.subscriptions.getPaymentMethodChangeTransaction(subscriptionId);
     return subscription;
   } catch (error) {
     return error;
