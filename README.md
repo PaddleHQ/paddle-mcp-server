@@ -6,7 +6,7 @@ This is a [Model Context Protocol (MCP)](https://modelcontextprotocol.io/introdu
 
 > **Important:** This MCP server works with Paddle Billing. It does not support Paddle Classic. To work with Paddle Classic, see: [Paddle Classic API reference](https://developer.paddle.com/classic/api-reference/1384a288aca7a-api-reference?utm_source=dx&utm_medium=paddle-mcp-server)
 
-[![Install MCP Server](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/install-mcp?name=paddle&config=eyJjb21tYW5kIjoibnB4IC15IEBwYWRkbGUvcGFkZGxlLW1jcCIsImVudiI6eyJQQURETEVfQVBJX0tFWSI6InBkbF9zZGJ4X2FwaWtleV8iLCJQQURETEVfRU5WSVJPTk1FTlQiOiJzYW5kYm94In19)
+[![Install in Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en-US/install-mcp?name=paddle&config=eyJlbnYiOnsiUEFERExFX0FQSV9LRVkiOiJ5b3VyX2FwaV9rZXkiLCJQQURETEVfRU5WSVJPTk1FTlQiOiJzYW5kYm94IiwiUEFERExFX01DUF9UT09MUyI6Im5vbi1kZXN0cnVjdGl2ZSJ9LCJjb21tYW5kIjoibnB4IC15IEBwYWRkbGUvcGFkZGxlLW1jcCJ9) &nbsp; [![Install in VS Code](https://img.shields.io/badge/VS_Code-Add_Paddle_MCP-0098FF?style=flat-square&logo=visualstudiocode&logoColor=ffffff)](vscode:mcp/install?%7B%22name%22%3A%22paddle%22%2C%22type%22%3A%22stdio%22%2C%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22%40paddle%2Fpaddle-mcp%22%5D%2C%22env%22%3A%7B%22PADDLE_API_KEY%22%3A%22your-api-key%22%2C%22PADDLE_ENVIRONMENT%22%3A%22sandbox%22%2C%22PADDLE_MCP_TOOLS%22%3A%22non-destructive%22%7D%7D)
 
 ## Features
 
@@ -20,10 +20,13 @@ The MCP server has near parity with the Paddle API, allowing AI assistants and a
 * Generate financial reports for financial and operational insights
 * Implement and test Paddle integrations faster
 
-<details>
-<summary>Available tools</summary>
 
-### Products
+## Available tools
+
+The MCP server can use the following tools to take actions with your Paddle account:
+
+<details>
+<summary>Products</summary>
 
 | Operation | Tool | Non-destructive | Read only |
 |-----------|------|-----------------|-----------|
@@ -32,7 +35,10 @@ The MCP server has near parity with the Paddle API, allowing AI assistants and a
 | Get a product | `get_product` | ✅ | ✅ |
 | Update a product | `update_product` | ❌ | ❌ |
 
-### Prices
+</details>
+
+<details>
+<summary>Prices</summary>
 
 | Operation | Tool | Non-destructive | Read only |
 |-----------|------|-----------------|-----------|
@@ -42,7 +48,10 @@ The MCP server has near parity with the Paddle API, allowing AI assistants and a
 | Update a price | `update_price` | ❌ | ❌ |
 | Preview prices | `preview_prices` | ✅ | ❌ |
 
-### Discounts
+</details>
+
+<details>
+<summary>Discounts</summary>
 
 | Operation | Tool | Non-destructive | Read only |
 |-----------|------|-----------------|-----------|
@@ -51,7 +60,11 @@ The MCP server has near parity with the Paddle API, allowing AI assistants and a
 | Get a discount | `get_discount` | ✅ | ✅ |
 | Update a discount | `update_discount` | ❌ | ❌ |
 
-### Discount Groups
+</details>
+
+<details>
+<summary>Discount Groups</summary>
+
 
 | Operation | Tool | Non-destructive | Read only |
 |-----------|------|-----------------|-----------|
@@ -61,7 +74,10 @@ The MCP server has near parity with the Paddle API, allowing AI assistants and a
 | Update a discount group | `update_discount_group` | ❌ | ❌ |
 | Archive a discount group | `archive_discount_group` | ❌ | ❌ |
 
-### Customers
+</details>
+
+<details>
+<summary>Customers</summary>
 
 | Operation | Tool | Non-destructive | Read only |
 |-----------|------|-----------------|-----------|
@@ -71,7 +87,10 @@ The MCP server has near parity with the Paddle API, allowing AI assistants and a
 | Update a customer | `update_customer` | ❌ | ❌ |
 | List credit balances for a customer | `list_credit_balances` | ✅ | ✅ |
 
-### Addresses
+</details>
+
+<details>
+<summary>Addresses</summary>
 
 | Operation | Tool | Non-destructive | Read only |
 |-----------|------|-----------------|-----------|
@@ -80,7 +99,10 @@ The MCP server has near parity with the Paddle API, allowing AI assistants and a
 | Get an address for a customer | `get_address` | ✅ | ✅ |
 | Update an address for a customer | `update_address` | ❌ | ❌ |
 
-### Businesses
+</details>
+
+<details>
+<summary>Businesses</summary>
 
 | Operation | Tool | Non-destructive | Read only |
 |-----------|------|-----------------|-----------|
@@ -89,7 +111,10 @@ The MCP server has near parity with the Paddle API, allowing AI assistants and a
 | Get a business for a customer | `get_business` | ✅ | ✅ |
 | Update a business for a customer | `update_business` | ❌ | ❌ |
 
-### Transactions
+</details>
+
+<details>
+<summary>Transactions</summary>
 
 | Operation | Tool | Non-destructive | Read only |
 |-----------|------|-----------------|-----------|
@@ -101,7 +126,10 @@ The MCP server has near parity with the Paddle API, allowing AI assistants and a
 | Revise customer information on a billed or completed transaction | `revise_transaction` | ❌ | ❌ |
 | Get a PDF invoice for a transaction | `get_transaction_invoice` | ✅ | ✅ |
 
-### Adjustments
+</details>
+
+<details>
+<summary>Adjustments</summary>
 
 | Operation | Tool | Non-destructive | Read only |
 |-----------|------|-----------------|-----------|
@@ -109,7 +137,10 @@ The MCP server has near parity with the Paddle API, allowing AI assistants and a
 | Create an adjustment | `create_adjustment` | ✅ | ❌ |
 | Get a PDF credit note for an adjustment | `get_adjustment_credit_note` | ✅ | ✅ |
 
-### Subscriptions
+</details>
+
+<details>
+<summary>Subscriptions</summary>
 
 | Operation | Tool | Non-destructive | Read only |
 |-----------|------|-----------------|-----------|
@@ -124,7 +155,10 @@ The MCP server has near parity with the Paddle API, allowing AI assistants and a
 | Create a one-time charge for a subscription | `create_subscription_charge` | ✅ | ❌ |
 | Preview a one-time charge for a subscription | `preview_subscription_charge` | ✅ | ❌ |
 
-### Saved Payment Methods
+</details>
+
+<details>
+<summary>Saved Payment Methods</summary>
 
 | Operation | Tool | Non-destructive | Read only |
 |-----------|------|-----------------|-----------|
@@ -132,13 +166,19 @@ The MCP server has near parity with the Paddle API, allowing AI assistants and a
 | Get a payment method saved for a customer | `get_saved_payment_method` | ✅ | ✅ |
 | Delete a payment method saved for a customer | `delete_saved_payment_method` | ❌ | ❌ |
 
-### Customer Portal Sessions
+</details>
+
+<details>
+<summary>Customer Portal Sessions</summary>
 
 | Operation | Tool | Non-destructive | Read only |
 |-----------|------|-----------------|-----------|
 | Create a customer portal session | `create_customer_portal_session` | ✅ | ❌ |
 
-### Notification Settings
+</details>
+
+<details>
+<summary>Notification Settings</summary>
 
 | Operation | Tool | Non-destructive | Read only |
 |-----------|------|-----------------|-----------|
@@ -148,13 +188,19 @@ The MCP server has near parity with the Paddle API, allowing AI assistants and a
 | Update a notification setting | `update_notification_setting` | ❌ | ❌ |
 | Delete a notification setting | `delete_notification_setting` | ❌ | ❌ |
 
-### Events
+</details>
+
+<details>
+<summary>Events</summary>
 
 | Operation | Tool | Non-destructive | Read only |
 |-----------|------|-----------------|-----------|
 | List events | `list_events` | ✅ | ✅ |
 
-### Notifications
+</details>
+
+<details>
+<summary>Notifications</summary>
 
 | Operation | Tool | Non-destructive | Read only |
 |-----------|------|-----------------|-----------|
@@ -162,13 +208,19 @@ The MCP server has near parity with the Paddle API, allowing AI assistants and a
 | Get a notification | `get_notification` | ✅ | ✅ |
 | Replay a notification | `replay_notification` | ✅ | ❌ |
 
-### Notification Logs
+</details>
+
+<details>
+<summary>Notification Logs</summary>
 
 | Operation | Tool | Non-destructive | Read only |
 |-----------|------|-----------------|-----------|
 | List logs for a notification | `list_notification_logs` | ✅ | ✅ |
 
-### Simulations
+</details>
+
+<details>
+<summary>Simulations</summary>
 
 | Operation | Tool | Non-destructive | Read only |
 |-----------|------|-----------------|-----------|
@@ -177,7 +229,10 @@ The MCP server has near parity with the Paddle API, allowing AI assistants and a
 | Get a simulation | `get_simulation` | ✅ | ✅ |
 | Update a simulation | `update_simulation` | ❌ | ❌ |
 
-### Simulation Runs
+</details>
+
+<details>
+<summary>Simulation Runs</summary>
 
 | Operation | Tool | Non-destructive | Read only |
 |-----------|------|-----------------|-----------|
@@ -185,7 +240,10 @@ The MCP server has near parity with the Paddle API, allowing AI assistants and a
 | Create a run for a simulation | `create_simulation_run` | ✅ | ❌ |
 | Get a run for a simulation | `get_simulation_run` | ✅ | ✅ |
 
-### Simulation Run Events
+</details>
+
+<details>
+<summary>Simulation Run Events</summary>
 
 | Operation | Tool | Non-destructive | Read only |
 |-----------|------|-----------------|-----------|
@@ -193,7 +251,10 @@ The MCP server has near parity with the Paddle API, allowing AI assistants and a
 | Get an event for a simulation run | `get_simulation_run_event` | ✅ | ✅ |
 | Replay an event for a simulation run | `replay_simulation_run_event` | ✅ | ❌ |
 
-### Reports
+</details>
+
+<details>
+<summary>Reports</summary>
 
 | Operation | Tool | Non-destructive | Read only |
 |-----------|------|-----------------|-----------|
@@ -202,7 +263,10 @@ The MCP server has near parity with the Paddle API, allowing AI assistants and a
 | Get a report | `get_report` | ✅ | ✅ |
 | Get a CSV file for a report | `get_report_csv` | ✅ | ✅ |
 
-### Client-Side Tokens
+</details>
+
+<details>
+<summary>Client-Side Tokens</summary>
 
 | Operation | Tool | Non-destructive | Read only |
 |-----------|------|-----------------|-----------|
@@ -220,22 +284,70 @@ To use the MCP server, you'll need an API key. You can create and manage API key
 - Sandbox: https://sandbox-vendors.paddle.com/authentication-v2
 - Live: https://vendors.paddle.com/authentication-v2
 
-To run the server in a client like Claude Desktop, Cursor or Windsurf, add the following to your MCP config:
+Adding the following to your MCP settings file will configure and run the Paddle MCP server in a client like Claude Desktop, Cursor or Windsurf:
+
+### Method 1: One-click installation in Cursor or VS Code
+
+You can install the Paddle MCP server with a single click in Cursor or VS Code.
+
+[![Install in Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en-US/install-mcp?name=paddle&config=eyJlbnYiOnsiUEFERExFX0FQSV9LRVkiOiJ5b3VyX2FwaV9rZXkiLCJQQURETEVfRU5WSVJPTk1FTlQiOiJzYW5kYm94IiwiUEFERExFX01DUF9UT09MUyI6Im5vbi1kZXN0cnVjdGl2ZSJ9LCJjb21tYW5kIjoibnB4IC15IEBwYWRkbGUvcGFkZGxlLW1jcCJ9) &nbsp; [![Install in VS Code](https://img.shields.io/badge/VS_Code-Add_Paddle_MCP-0098FF?style=flat-square&logo=visualstudiocode&logoColor=ffffff)](vscode:mcp/install?%7B%22name%22%3A%22paddle%22%2C%22type%22%3A%22stdio%22%2C%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22%40paddle%2Fpaddle-mcp%22%5D%2C%22env%22%3A%7B%22PADDLE_API_KEY%22%3A%22your-api-key%22%2C%22PADDLE_ENVIRONMENT%22%3A%22sandbox%22%2C%22PADDLE_MCP_TOOLS%22%3A%22non-destructive%22%7D%7D)
+
+After installation, you'll need to update the configuration in your MCP settings file to replace `your_api_key` with your actual Paddle API key and adjust the environment and tools values as needed.
+
+### Method 2: Using command-line arguments (Recommended for `npx`)
+
+Add the following to the MCP settings or configuration file in the client you're using:
 
 ```json
 {
   "mcpServers": {
     "paddle": {
       "command": "npx",
-      "args": ["-y", "@paddle/paddle-mcp", "--api-key=PADDLE_API_KEY", "--environment=(sandbox|production)", "--tools=(all|read-only|non-destructive|tool_name1,tool_name2,...)"]
+      "args": [
+        "-y",
+        "@paddle/paddle-mcp",
+        "--api-key=your_api_key",
+        "--environment=sandbox",
+        "--tools=non-destructive"
+      ]
     }
   }
 }
 ```
 
-Replace `PADDLE_API_KEY` with your API key, and pass the correct value as `environment`.
+Replace `your_api_key` with your actual Paddle API key, set `--environment` to either `sandbox` or `production`, and set `--tools` to the tools which you want to be loaded and available to the MCP client.
 
-You can also filter the tools available to the MCP server by passing the `--tools` argument. Accepted values are `all`, `read-only`, `non-destructive`, or a comma-separated list of tool names. The default is `non-destructive`.
+### Method 3: Using environment variables
+
+Add the following to the MCP settings or configuration file in the client you're using:
+
+```json
+{
+  "mcpServers": {
+    "paddle": {
+      "command": "npx",
+      "args": ["-y", "@paddle/paddle-mcp"],
+      "env": {
+        "PADDLE_API_KEY": "your_api_key",
+        "PADDLE_ENVIRONMENT": "sandbox",
+        "PADDLE_MCP_TOOLS": "non-destructive"
+      }
+    }
+  }
+}
+```
+
+Replace `your_api_key` with your actual Paddle API key, set `PADDLE_ENVIRONMENT` to either `sandbox` or `production`, and set `PADDLE_MCP_TOOLS` to the tools which you want to be loaded and available to the MCP client.
+
+### Filtering tools
+
+You can filter which [tools](#available-tools) are loaded and available to the MCP client by passing the `--tools` argument (Method 2) or setting the `PADDLE_MCP_TOOLS` environment variable (Method 1 or 3). Accepted values are:
+
+- `all` - All tools are available
+- `read-only` - Only read operations are available
+- `non-destructive` - Read operations and safe write operations are available (default)
+- A comma-separated list of specific tool names (e.g., `list_products,get_product,create_product`)
+
 
 For detailed setup guides, see:
 
