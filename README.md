@@ -6,7 +6,11 @@ This is a [Model Context Protocol (MCP)](https://modelcontextprotocol.io/introdu
 
 > **Important:** This MCP server works with Paddle Billing. It does not support Paddle Classic. To work with Paddle Classic, see: [Paddle Classic API reference](https://developer.paddle.com/classic/api-reference/1384a288aca7a-api-reference?utm_source=dx&utm_medium=paddle-mcp-server)
 
-[![Install in Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en-US/install-mcp?name=paddle&config=eyJlbnYiOnsiUEFERExFX0FQSV9LRVkiOiJ5b3VyX2FwaV9rZXkiLCJQQURETEVfRU5WSVJPTk1FTlQiOiJzYW5kYm94IiwiUEFERExFX01DUF9UT09MUyI6Im5vbi1kZXN0cnVjdGl2ZSJ9LCJjb21tYW5kIjoibnB4IC15IEBwYWRkbGUvcGFkZGxlLW1jcCJ9) &nbsp; [![Install in VS Code](https://img.shields.io/badge/VS_Code-Add_Paddle_MCP-0098FF?style=flat-square&logo=visualstudiocode&logoColor=ffffff)](vscode:mcp/install?%7B%22name%22%3A%22paddle%22%2C%22type%22%3A%22stdio%22%2C%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22%40paddle%2Fpaddle-mcp%22%5D%2C%22env%22%3A%7B%22PADDLE_API_KEY%22%3A%22your-api-key%22%2C%22PADDLE_ENVIRONMENT%22%3A%22sandbox%22%2C%22PADDLE_MCP_TOOLS%22%3A%22non-destructive%22%7D%7D)
+[![Install in Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en-US/install-mcp?name=paddle&config=eyJlbnYiOnsiUEFERExFX0FQSV9LRVkiOiJ5b3VyX2FwaV9rZXkiLCJQQURETEVfRU5WSVJPTk1FTlQiOiJzYW5kYm94IiwiUEFERExFX01DUF9UT09MUyI6Im5vbi1kZXN0cnVjdGl2ZSJ9LCJjb21tYW5kIjoibnB4IC15IEBwYWRkbGUvcGFkZGxlLW1jcCJ9)
+
+<a href="vscode:mcp/install?%7B%22name%22%3A%22paddle%22%2C%22type%22%3A%22stdio%22%2C%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22%40paddle%2Fpaddle-mcp%22%5D%2C%22env%22%3A%7B%22PADDLE_API_KEY%22%3A%22your-api-key%22%2C%22PADDLE_ENVIRONMENT%22%3A%22sandbox%22%2C%22PADDLE_MCP_TOOLS%22%3A%22non-destructive%22%7D%7D">
+  <img src="https://img.shields.io/badge/VS_Code-Add_Paddle_MCP-0098FF?style=flat-square&logo=visualstudiocode&logoColor=ffffff">
+</a>
 
 ## Features
 
@@ -19,7 +23,6 @@ The MCP server has near parity with the Paddle API, allowing AI assistants and a
 * Create and adjust transactions directly in conversation
 * Generate financial reports for financial and operational insights
 * Implement and test Paddle integrations faster
-
 
 ## Available tools
 
@@ -64,7 +67,6 @@ The MCP server can use the following tools to take actions with your Paddle acco
 
 <details>
 <summary>Discount Groups</summary>
-
 
 | Operation | Tool | Non-destructive | Read only |
 |-----------|------|-----------------|-----------|
@@ -281,8 +283,8 @@ The MCP server can use the following tools to take actions with your Paddle acco
 
 To use the MCP server, you'll need an API key. You can create and manage API keys in **Paddle > Developer tools > Authentication**:
 
-- Sandbox: https://sandbox-vendors.paddle.com/authentication-v2
-- Live: https://vendors.paddle.com/authentication-v2
+* Sandbox: <https://sandbox-vendors.paddle.com/authentication-v2>
+* Live: <https://vendors.paddle.com/authentication-v2>
 
 Adding the following to your MCP settings file will configure and run the Paddle MCP server in a client like Claude Desktop, Cursor or Windsurf:
 
@@ -290,7 +292,11 @@ Adding the following to your MCP settings file will configure and run the Paddle
 
 You can install the Paddle MCP server with a single click in Cursor or VS Code.
 
-[![Install in Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en-US/install-mcp?name=paddle&config=eyJlbnYiOnsiUEFERExFX0FQSV9LRVkiOiJ5b3VyX2FwaV9rZXkiLCJQQURETEVfRU5WSVJPTk1FTlQiOiJzYW5kYm94IiwiUEFERExFX01DUF9UT09MUyI6Im5vbi1kZXN0cnVjdGl2ZSJ9LCJjb21tYW5kIjoibnB4IC15IEBwYWRkbGUvcGFkZGxlLW1jcCJ9) &nbsp; [![Install in VS Code](https://img.shields.io/badge/VS_Code-Add_Paddle_MCP-0098FF?style=flat-square&logo=visualstudiocode&logoColor=ffffff)](vscode:mcp/install?%7B%22name%22%3A%22paddle%22%2C%22type%22%3A%22stdio%22%2C%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22%40paddle%2Fpaddle-mcp%22%5D%2C%22env%22%3A%7B%22PADDLE_API_KEY%22%3A%22your-api-key%22%2C%22PADDLE_ENVIRONMENT%22%3A%22sandbox%22%2C%22PADDLE_MCP_TOOLS%22%3A%22non-destructive%22%7D%7D)
+[![Install in Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en-US/install-mcp?name=paddle&config=eyJlbnYiOnsiUEFERExFX0FQSV9LRVkiOiJ5b3VyX2FwaV9rZXkiLCJQQURETEVfRU5WSVJPTk1FTlQiOiJzYW5kYm94IiwiUEFERExFX01DUF9UT09MUyI6Im5vbi1kZXN0cnVjdGl2ZSJ9LCJjb21tYW5kIjoibnB4IC15IEBwYWRkbGUvcGFkZGxlLW1jcCJ9)
+
+<a href="vscode:mcp/install?%7B%22name%22%3A%22paddle%22%2C%22type%22%3A%22stdio%22%2C%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22%40paddle%2Fpaddle-mcp%22%5D%2C%22env%22%3A%7B%22PADDLE_API_KEY%22%3A%22your-api-key%22%2C%22PADDLE_ENVIRONMENT%22%3A%22sandbox%22%2C%22PADDLE_MCP_TOOLS%22%3A%22non-destructive%22%7D%7D">
+  <img src="https://img.shields.io/badge/VS_Code-Add_Paddle_MCP-0098FF?style=flat-square&logo=visualstudiocode&logoColor=ffffff">
+</a>
 
 After installation, you'll need to update the configuration in your MCP settings file to replace `your_api_key` with your actual Paddle API key and adjust the environment and tools values as needed.
 
@@ -343,17 +349,16 @@ Replace `your_api_key` with your actual Paddle API key, set `PADDLE_ENVIRONMENT`
 
 You can filter which [tools](#available-tools) are loaded and available to the MCP client by passing the `--tools` argument (Method 2) or setting the `PADDLE_MCP_TOOLS` environment variable (Method 1 or 3). Accepted values are:
 
-- `all` - All tools are available
-- `read-only` - Only read operations are available
-- `non-destructive` - Read operations and safe write operations are available (default)
-- A comma-separated list of specific tool names (e.g., `list_products,get_product,create_product`)
-
+* `all` - All tools are available
+* `read-only` - Only read operations are available
+* `non-destructive` - Read operations and safe write operations are available (default)
+* A comma-separated list of specific tool names (e.g., `list_products,get_product,create_product`)
 
 For detailed setup guides, see:
 
-- [Claude Desktop](https://modelcontextprotocol.io/quickstart/user)
-- [Cursor](https://docs.cursor.com/context/model-context-protocol)
-- [Windsurf](https://docs.codeium.com/windsurf/mcp)
+* [Claude Desktop](https://modelcontextprotocol.io/quickstart/user)
+* [Cursor](https://docs.cursor.com/context/model-context-protocol)
+* [Windsurf](https://docs.codeium.com/windsurf/mcp)
 
 ## Development
 
@@ -370,6 +375,7 @@ For detailed setup guides, see:
    ```
 
 3. Update client to use the local build:
+
    ```json
    {
      "mcpServers": {
@@ -404,6 +410,6 @@ To debug the MCP server, you can use the MCP Inspector tool:
 
 ## Learn more
 
-- [Paddle developer docs](https://developer.paddle.com?utm_source=dx&utm_medium=paddle-mcp-server)
-- [Paddle API reference](https://developer.paddle.com/api-reference/overview?utm_source=dx&utm_medium=paddle-mcp-server)
-- [Sign up for Paddle Billing](https://login.paddle.com/signup?utm_source=dx&utm_medium=paddle-mcp-server)
+* [Paddle developer docs](https://developer.paddle.com?utm_source=dx&utm_medium=paddle-mcp-server)
+* [Paddle API reference](https://developer.paddle.com/api-reference/overview?utm_source=dx&utm_medium=paddle-mcp-server)
+* [Sign up for Paddle Billing](https://login.paddle.com/signup?utm_source=dx&utm_medium=paddle-mcp-server)
