@@ -1,7 +1,11 @@
+import { createRequire } from "node:module";
 import { Environment, LogLevel, Paddle } from "@paddle/paddle-node-sdk";
 import * as funcs from "./functions.js";
 import { TOOL_METHODS } from "./constants.js";
 import { ToolMethod } from "./tools.js";
+
+const require = createRequire(import.meta.url);
+const { version } = require("../package.json");
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type ToolFunction = (paddle: Paddle, arg: any) => Promise<unknown>;
@@ -95,20 +99,37 @@ const toolMap: Record<ToolMethod, ToolFunction> = {
 class PaddleAPI {
   paddle: Paddle;
   environment: string;
+  private apiKey: string;
 
   constructor(apiKey: string, environment: string) {
-    const paddle = new Paddle(apiKey, {
-      environment: environment as Environment,
-      logLevel: LogLevel.error,
-    });
-    this.paddle = paddle;
+    this.apiKey = apiKey;
     this.environment = environment;
+    this.paddle = this.createPaddleClient();
   }
-  
+
+  private createPaddleClient(customHeaders: Record<string, string> = {}): Paddle {
+    return new Paddle(this.apiKey, {
+      environment: this.environment as Environment,
+      logLevel: LogLevel.error,
+      customHeaders: {
+        "X-Paddle-Client": "paddle-mcp-server",
+        "X-Paddle-Client-Version": version,
+        ...customHeaders,
+      },
+    });
+  }
+
+  setClientInfo(info: { name: string; version: string }): void {
+    this.paddle = this.createPaddleClient({
+      "X-Paddle-Client-App": info.name,
+      "X-Paddle-Client-App-Version": info.version,
+    });
+  }
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   async run(method: ToolMethod, arg: any): Promise<string> {
     const toolFunction = toolMap[method];
-    
+
     if (!toolFunction) {
       throw new Error(`Invalid tool method: ${method}`);
     }
