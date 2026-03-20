@@ -46,7 +46,7 @@ class PaddleMCPServer extends McpServer {
       const destructive = isDestructiveTool(tool);
 
       let shouldRegister = false;
-      
+
       if (toolFilter.mode === "all") {
         shouldRegister = true;
       } else if (toolFilter.mode === "read-only") {
@@ -93,6 +93,13 @@ class PaddleMCPServer extends McpServer {
         "The value of the --tools parameter must be 'all', 'read-only', 'non-destructive', or a comma-separated list of valid tools."
       );
     }
+
+    this.server.oninitialized = () => {
+      const clientVersion = this.server.getClientVersion();
+      if (clientVersion) {
+        this._paddle.setClientInfo(clientVersion);
+      }
+    };
   }
 }
 
