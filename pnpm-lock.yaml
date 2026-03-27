@@ -12,8 +12,8 @@ importers:
         specifier: ^1.18.1
         version: 1.18.1
       '@paddle/paddle-node-sdk':
-        specifier: ^3.0.0
-        version: 3.2.1
+        specifier: ^3.6.1
+        version: 3.6.1
       ts-node:
         specifier: ^10.9.2
         version: 10.9.2(@types/node@24.5.2)(typescript@5.9.2)
@@ -129,8 +129,8 @@ packages:
     resolution: {integrity: sha512-oGB+UxlgWcgQkgwo8GcEGwemoTFt3FIO9ababBmaGwXIoBKZ+GTy0pP185beGg7Llih/NSHSV2XAs1lnznocSg==}
     engines: {node: '>= 8'}
 
-  '@paddle/paddle-node-sdk@3.2.1':
-    resolution: {integrity: sha512-0IfxqYCJLHyH7oCGbPWxIPxQKw4Zi6rg04UMvmN7EqlWdJi5RXfzFAqwGXK+3tqHYzEBpo3RxiL9B+k5gCt3Hw==}
+  '@paddle/paddle-node-sdk@3.6.1':
+    resolution: {integrity: sha512-6lDUj27MSciKkoL7rX8Y5cwtJCFCUNZmQHT2DwGnqlMJxY6uhlUYW5AftsLEj12HvAZG+sdcbfA4BY1Rh1Q5ZQ==}
     engines: {node: '>=20'}
 
   '@tsconfig/node10@1.0.11':
@@ -1013,7 +1013,7 @@ snapshots:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.19.1
 
-  '@paddle/paddle-node-sdk@3.2.1': {}
+  '@paddle/paddle-node-sdk@3.6.1': {}
 
   '@tsconfig/node10@1.0.11': {}
 
