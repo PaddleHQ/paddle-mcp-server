@@ -1018,3 +1018,75 @@ export const listClientSideTokens = async (paddle: Paddle, params: z.infer<typeo
     return error;
   }
 };
+
+export const getActiveSubscribers = async (paddle: Paddle, params: z.infer<typeof Parameters.getMetricsParameters>) => {
+  try {
+    const activeSubscribers = await paddle.metrics.getActiveSubscribers(params);
+    return activeSubscribers;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const getMonthlyRecurringRevenue = async (
+  paddle: Paddle,
+  params: z.infer<typeof Parameters.getMetricsParameters>,
+) => {
+  try {
+    const monthlyRecurringRevenue = await paddle.metrics.getMonthlyRecurringRevenue(params);
+    return monthlyRecurringRevenue;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const getRevenue = async (paddle: Paddle, params: z.infer<typeof Parameters.getMetricsParameters>) => {
+  try {
+    const revenue = await paddle.metrics.getRevenue(params);
+    return revenue;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const getRefunds = async (paddle: Paddle, params: z.infer<typeof Parameters.getMetricsParameters>) => {
+  try {
+    const refunds = await paddle.metrics.getRefunds(params);
+    return refunds;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const getChargebacks = async (paddle: Paddle, params: z.infer<typeof Parameters.getMetricsParameters>) => {
+  try {
+    const chargebacks = await paddle.metrics.getChargebacks(params);
+    return chargebacks;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const getCheckoutConversion = async (
+  paddle: Paddle,
+  params: z.infer<typeof Parameters.getMetricsParameters>,
+) => {
+  try {
+    const checkoutConversion = await paddle.metrics.getCheckoutConversion(params);
+    return checkoutConversion;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const getMonthlyRecurringRevenueChange = async (
+  paddle: Paddle,
+  params: z.infer<typeof Parameters.getMetricsParameters>,
+) => {
+  try {
+    const monthlyRecurringRevenueChange = await paddle.metrics.getMonthlyRecurringRevenueChange(params);
+    return monthlyRecurringRevenueChange;
+  } catch (error) {
+    return error;
+  }
+};

@@ -28,7 +28,7 @@
   ],
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.18.1",
-    "@paddle/paddle-node-sdk": "^3.6.1",
+    "@paddle/paddle-node-sdk": "^3.7.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.2",
     "zod": "~3.25.76"

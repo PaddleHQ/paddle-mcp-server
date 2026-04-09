@@ -82,4 +82,11 @@ export const TOOL_METHODS = {
   CREATE_CLIENT_SIDE_TOKEN: "create_client_side_token",
   GET_CLIENT_SIDE_TOKEN: "get_client_side_token",
   REVOKE_CLIENT_SIDE_TOKEN: "revoke_client_side_token",
+  GET_ACTIVE_SUBSCRIBERS: "get_active_subscribers",
+  GET_MONTHLY_RECURRING_REVENUE: "get_monthly_recurring_revenue",
+  GET_REVENUE: "get_revenue",
+  GET_REFUNDS: "get_refunds",
+  GET_CHARGEBACKS: "get_chargebacks",
+  GET_CHECKOUT_CONVERSION: "get_checkout_conversion",
+  GET_MONTHLY_RECURRING_REVENUE_CHANGE: "get_monthly_recurring_revenue_change",
 } as const;

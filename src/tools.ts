@@ -1018,6 +1018,90 @@ const tools: Tool[] = [
       },
     },
   },
+  {
+    method: "get_active_subscribers",
+    name: "Get active subscribers",
+    description: prompts.getActiveSubscribersPrompt,
+    parameters: params.getMetricsParameters,
+    actions: {
+      metrics: {
+        read: true,
+        get: true,
+      },
+    },
+  },
+  {
+    method: "get_monthly_recurring_revenue",
+    name: "Get monthly recurring revenue",
+    description: prompts.getMonthlyRecurringRevenuePrompt,
+    parameters: params.getMetricsParameters,
+    actions: {
+      metrics: {
+        read: true,
+        get: true,
+      },
+    },
+  },
+  {
+    method: "get_revenue",
+    name: "Get revenue",
+    description: prompts.getRevenuePrompt,
+    parameters: params.getMetricsParameters,
+    actions: {
+      metrics: {
+        read: true,
+        get: true,
+      },
+    },
+  },
+  {
+    method: "get_refunds",
+    name: "Get refunds",
+    description: prompts.getRefundsPrompt,
+    parameters: params.getMetricsParameters,
+    actions: {
+      metrics: {
+        read: true,
+        get: true,
+      },
+    },
+  },
+  {
+    method: "get_chargebacks",
+    name: "Get chargebacks",
+    description: prompts.getChargebacksPrompt,
+    parameters: params.getMetricsParameters,
+    actions: {
+      metrics: {
+        read: true,
+        get: true,
+      },
+    },
+  },
+  {
+    method: "get_checkout_conversion",
+    name: "Get checkout conversion",
+    description: prompts.getCheckoutConversionPrompt,
+    parameters: params.getMetricsParameters,
+    actions: {
+      metrics: {
+        read: true,
+        get: true,
+      },
+    },
+  },
+  {
+    method: "get_monthly_recurring_revenue_change",
+    name: "Get monthly recurring revenue change",
+    description: prompts.getMonthlyRecurringRevenueChangePrompt,
+    parameters: params.getMetricsParameters,
+    actions: {
+      metrics: {
+        read: true,
+        get: true,
+      },
+    },
+  },
 ];
 
 export default tools;

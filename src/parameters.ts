@@ -4874,3 +4874,16 @@ export const getClientSideTokenParameters = z.object({
 export const revokeClientSideTokenParameters = z.object({
   clientTokenId: z.string().describe("Paddle ID of the client-side token."),
 });
+
+export const getMetricsParameters = z.object({
+  from: z
+    .string()
+    .describe(
+      "Return data from a specific date. Pass an RFC 3339 full date string. Interpreted at 00:00UTC. Must be before or the same as `to`.",
+    ),
+  to: z
+    .string()
+    .describe(
+      "Return data up to a specific date. Pass an RFC 3339 full date string. Interpreted at 00:00UTC. Must be after or the same as `from`.",
+    ),
+});

@@ -6,6 +6,11 @@ const additionalDetailsWarning = `
 Ensure you have all the information needed before making the call. Don't fabricate, imagine, or infer details and parameter values unless explicitly asked to. If anything is ambiguous, unknown, or unclear, ask the user for clarification or details before you proceed.
 `;
 
+const metricsDateRangeGuidance = `
+Pass both from and to as RFC 3339 full date strings. Dates are interpreted at 00:00 UTC.
+Choose a date range that matches the reporting window the user is asking for.
+`;
+
 export const listProductsPrompt = `
 This tool will list products in the account's catalog.
 
@@ -1152,7 +1157,6 @@ ${additionalDetailsWarning}
 If successful, the response includes a copy of the updated discount entity.
 `;
 
-
 export const listDiscountGroupsPrompt = `
 This tool will list discount groups in the account's catalog.
 
@@ -1496,4 +1500,60 @@ This tool will revoke a client-side token using its ID.
 When revoking a client-side token, it can no longer be used to authenticate with Paddle.js. Revoking a token is permanent and can't be undone. Create a new client-side token using the create_client_side_token tool if authentication is needed again.
 
 If successful, the response includes a copy of the revoked client-side token entity.
+`;
+
+export const getActiveSubscribersPrompt = `
+This tool will retrieve active subscriber metrics from Paddle.
+
+Returns timeseries data for active subscriber counts in a given date range. Trends have a daily granularity. Current number of paying users with active subscriptions (does not include trialling users).
+
+${metricsDateRangeGuidance}
+`;
+
+export const getMonthlyRecurringRevenuePrompt = `
+This tool will retrieve monthly recurring revenue (MRR) metrics from Paddle.
+
+Returns timeseries data for monthly recurring revenue in a given date range. Trends have a daily granularity. Current monthly recurring revenue total. Includes new subscriptions, upgrades, downgrades and churn. Does not include one-time payments or deductions for Paddle fees.
+
+${metricsDateRangeGuidance}
+`;
+
+export const getRevenuePrompt = `
+This tool will retrieve revenue metrics from Paddle.
+
+Returns timeseries data for revenue in a given date range. Trends have a daily granularity. Net revenue from completed payments (e.g. single purchase, subscription, B2B invoices) after tax & fees have been deducted, but before adjustments such as refunds or chargebacks.
+
+${metricsDateRangeGuidance}
+`;
+
+export const getRefundsPrompt = `
+This tool will retrieve refund metrics from Paddle.
+
+Returns timeseries data for refunds in a given date range. Trends have a daily granularity. The transaction subtotal (base cost minus discounts excluding taxes and fees) of refunded products returned to the customer. This does not include chargebacks.
+
+${metricsDateRangeGuidance}
+`;
+
+export const getChargebacksPrompt = `
+This tool will retrieve chargeback metrics from Paddle.
+
+Returns timeseries data for chargebacks in a given date range. Trends have a daily granularity. Total number of chargebacks received for the period. Does not include pre-chargeback alerts or chargeback reversals.
+
+${metricsDateRangeGuidance}
+`;
+
+export const getCheckoutConversionPrompt = `
+This tool will retrieve checkout conversion metrics from Paddle.
+
+Returns timeseries data for checkout conversion in a given date range. Trends have a daily granularity. The conversion rate for checkouts in the period. A checkout is considered converted when a payment is successfully completed.
+
+${metricsDateRangeGuidance}
+`;
+
+export const getMonthlyRecurringRevenueChangePrompt = `
+This tool will retrieve monthly recurring revenue (MRR) change metrics from Paddle.
+
+Returns timeseries data for monthly recurring revenue change in a given date range. Trends have a daily granularity. Monthly recurring revenue (MRR) change compared to the same time interval last month.
+
+${metricsDateRangeGuidance}
 `;
