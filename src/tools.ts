@@ -924,7 +924,7 @@ const tools: Tool[] = [
   },
   {
     method: "list_reports",
-    name: "List reports",
+    name: "List generated reports",
     description: prompts.listReportsPrompt,
     parameters: params.listReportsParameters,
     actions: {
@@ -936,7 +936,7 @@ const tools: Tool[] = [
   },
   {
     method: "create_report",
-    name: "Create a report",
+    name: "Create a report export",
     description: prompts.createReportPrompt,
     parameters: params.createReportParameters,
     actions: {
@@ -948,7 +948,7 @@ const tools: Tool[] = [
   },
   {
     method: "get_report",
-    name: "Get a report",
+    name: "Get a generated report",
     description: prompts.getReportPrompt,
     parameters: params.getReportParameters,
     actions: {
@@ -960,7 +960,7 @@ const tools: Tool[] = [
   },
   {
     method: "get_report_csv",
-    name: "Get a CSV file for a report",
+    name: "Get a CSV file for a report export",
     description: prompts.getReportCsvPrompt,
     parameters: params.getReportCsvParameters,
     actions: {
@@ -1020,7 +1020,7 @@ const tools: Tool[] = [
   },
   {
     method: "get_active_subscribers",
-    name: "Get active subscribers",
+    name: "Get active subscriber metrics",
     description: prompts.getActiveSubscribersPrompt,
     parameters: params.getMetricsParameters,
     actions: {
@@ -1032,7 +1032,7 @@ const tools: Tool[] = [
   },
   {
     method: "get_monthly_recurring_revenue",
-    name: "Get monthly recurring revenue",
+    name: "Get monthly recurring revenue metrics",
     description: prompts.getMonthlyRecurringRevenuePrompt,
     parameters: params.getMetricsParameters,
     actions: {
@@ -1044,7 +1044,7 @@ const tools: Tool[] = [
   },
   {
     method: "get_revenue",
-    name: "Get revenue",
+    name: "Get revenue metrics",
     description: prompts.getRevenuePrompt,
     parameters: params.getMetricsParameters,
     actions: {
@@ -1056,7 +1056,7 @@ const tools: Tool[] = [
   },
   {
     method: "get_refunds",
-    name: "Get refunds",
+    name: "Get refund metrics",
     description: prompts.getRefundsPrompt,
     parameters: params.getMetricsParameters,
     actions: {
@@ -1068,7 +1068,7 @@ const tools: Tool[] = [
   },
   {
     method: "get_chargebacks",
-    name: "Get chargebacks",
+    name: "Get chargeback metrics",
     description: prompts.getChargebacksPrompt,
     parameters: params.getMetricsParameters,
     actions: {
@@ -1080,7 +1080,7 @@ const tools: Tool[] = [
   },
   {
     method: "get_checkout_conversion",
-    name: "Get checkout conversion",
+    name: "Get checkout conversion metrics",
     description: prompts.getCheckoutConversionPrompt,
     parameters: params.getMetricsParameters,
     actions: {
@@ -1092,7 +1092,7 @@ const tools: Tool[] = [
   },
   {
     method: "get_monthly_recurring_revenue_change",
-    name: "Get monthly recurring revenue change",
+    name: "Get monthly recurring revenue change metrics",
     description: prompts.getMonthlyRecurringRevenueChangePrompt,
     parameters: params.getMetricsParameters,
     actions: {
