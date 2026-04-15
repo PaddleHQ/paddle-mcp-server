@@ -9,6 +9,10 @@ export type ToolFilter = {
   tools?: string[];
 };
 
+function isMetricsTool(tool: Tool): boolean {
+  return tool.actions.metrics !== undefined;
+}
+
 class PaddleMCPServer extends McpServer {
   private _paddle: PaddleAPI;
 
@@ -61,6 +65,10 @@ class PaddleMCPServer extends McpServer {
         return;
       }
 
+      if (environment === "sandbox" && isMetricsTool(tool)) {
+        return;
+      }
+
       const annotations = {
         readOnlyHint: !write,
         destructiveHint: write ? destructive : undefined,
@@ -88,9 +96,14 @@ class PaddleMCPServer extends McpServer {
     });
 
     if (registeredCount === 0) {
+      const sandboxMetricsHint =
+        environment === "sandbox"
+          ? " Metrics tools are omitted in sandbox because they only work with production data; add other tools to your filter or set the environment to production."
+          : "";
       throw new Error(
         "No tools were registered with the current filter settings. " +
-        "The value of the --tools parameter must be 'all', 'read-only', 'non-destructive', or a comma-separated list of valid tools."
+        "The value of the --tools parameter must be 'all', 'read-only', 'non-destructive', or a comma-separated list of valid tools." +
+        sandboxMetricsHint,
       );
     }
 

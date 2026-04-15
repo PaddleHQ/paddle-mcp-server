@@ -1,6 +1,6 @@
 {
   "name": "@paddle/paddle-mcp",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "MCP Server for Paddle Billing",
   "license": "Apache-2.0",
   "repository": "https://github.com/PaddleHQ/paddle-mcp-server",
@@ -28,7 +28,7 @@
   ],
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.18.1",
-    "@paddle/paddle-node-sdk": "^3.6.1",
+    "@paddle/paddle-node-sdk": "^3.7.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.2",
     "zod": "~3.25.76"

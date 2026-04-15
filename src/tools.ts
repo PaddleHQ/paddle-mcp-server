@@ -924,7 +924,7 @@ const tools: Tool[] = [
   },
   {
     method: "list_reports",
-    name: "List reports",
+    name: "List generated reports",
     description: prompts.listReportsPrompt,
     parameters: params.listReportsParameters,
     actions: {
@@ -936,7 +936,7 @@ const tools: Tool[] = [
   },
   {
     method: "create_report",
-    name: "Create a report",
+    name: "Create a report export",
     description: prompts.createReportPrompt,
     parameters: params.createReportParameters,
     actions: {
@@ -948,7 +948,7 @@ const tools: Tool[] = [
   },
   {
     method: "get_report",
-    name: "Get a report",
+    name: "Get a generated report",
     description: prompts.getReportPrompt,
     parameters: params.getReportParameters,
     actions: {
@@ -960,7 +960,7 @@ const tools: Tool[] = [
   },
   {
     method: "get_report_csv",
-    name: "Get a CSV file for a report",
+    name: "Get a CSV file for a report export",
     description: prompts.getReportCsvPrompt,
     parameters: params.getReportCsvParameters,
     actions: {
@@ -1015,6 +1015,90 @@ const tools: Tool[] = [
       clientSideTokens: {
         write: true,
         delete: true,
+      },
+    },
+  },
+  {
+    method: "get_active_subscribers_metrics",
+    name: "Get active subscriber metrics",
+    description: prompts.getActiveSubscribersPrompt,
+    parameters: params.getMetricsParameters,
+    actions: {
+      metrics: {
+        read: true,
+        get: true,
+      },
+    },
+  },
+  {
+    method: "get_monthly_recurring_revenue_metrics",
+    name: "Get monthly recurring revenue metrics",
+    description: prompts.getMonthlyRecurringRevenuePrompt,
+    parameters: params.getMetricsParameters,
+    actions: {
+      metrics: {
+        read: true,
+        get: true,
+      },
+    },
+  },
+  {
+    method: "get_revenue_metrics",
+    name: "Get revenue metrics",
+    description: prompts.getRevenuePrompt,
+    parameters: params.getMetricsParameters,
+    actions: {
+      metrics: {
+        read: true,
+        get: true,
+      },
+    },
+  },
+  {
+    method: "get_refunds_metrics",
+    name: "Get refund metrics",
+    description: prompts.getRefundsPrompt,
+    parameters: params.getMetricsParameters,
+    actions: {
+      metrics: {
+        read: true,
+        get: true,
+      },
+    },
+  },
+  {
+    method: "get_chargebacks_metrics",
+    name: "Get chargeback metrics",
+    description: prompts.getChargebacksPrompt,
+    parameters: params.getMetricsParameters,
+    actions: {
+      metrics: {
+        read: true,
+        get: true,
+      },
+    },
+  },
+  {
+    method: "get_checkout_conversion_metrics",
+    name: "Get checkout conversion metrics",
+    description: prompts.getCheckoutConversionPrompt,
+    parameters: params.getMetricsParameters,
+    actions: {
+      metrics: {
+        read: true,
+        get: true,
+      },
+    },
+  },
+  {
+    method: "get_monthly_recurring_revenue_change_metrics",
+    name: "Get monthly recurring revenue change metrics",
+    description: prompts.getMonthlyRecurringRevenueChangePrompt,
+    parameters: params.getMetricsParameters,
+    actions: {
+      metrics: {
+        read: true,
+        get: true,
       },
     },
   },

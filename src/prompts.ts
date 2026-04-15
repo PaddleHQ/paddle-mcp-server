@@ -6,6 +6,22 @@ const additionalDetailsWarning = `
 Ensure you have all the information needed before making the call. Don't fabricate, imagine, or infer details and parameter values unless explicitly asked to. If anything is ambiguous, unknown, or unclear, ask the user for clarification or details before you proceed.
 `;
 
+const metricsDateRangeGuidance = `
+Pass both from and to as RFC 3339 full date strings. Dates are interpreted at 00:00 UTC.
+Choose a date range that matches the reporting window the user is asking for.
+`;
+
+const metricsEnvironmentGuidance = `
+IMPORTANT: This tool only works with production (live) accounts. It will not return data for sandbox environments.
+`;
+
+const metricsReportsGuidance = `
+Metrics and reports:
+- Reports export entity-level historical data as CSV. Use them for audits, reconciliation, spreadsheets, and lists of individual transactions, refunds, discounts, or products.
+- Metrics return aggregated timeseries data directly in the API response. When this MCP server is configured for production, use metrics tools for trend questions, dashboard summaries, and aggregate performance over time.
+Rule of thumb: if the user wants a list of rows, use a report. If they want a trend or headline figure, use a metrics tool when this server exposes them; otherwise rely on reports.
+`;
+
 export const listProductsPrompt = `
 This tool will list products in the account's catalog.
 
@@ -1152,7 +1168,6 @@ ${additionalDetailsWarning}
 If successful, the response includes a copy of the updated discount entity.
 `;
 
-
 export const listDiscountGroupsPrompt = `
 This tool will list discount groups in the account's catalog.
 
@@ -1383,6 +1398,10 @@ If successful, the response includes immediateTransaction, nextTransaction, and 
 export const listReportsPrompt = `
 This tool will list reports in Paddle.
 
+This lists generated report exports only. It does not return report contents or analytical summaries.
+
+${metricsReportsGuidance}
+
 Use the maximum perPage by default (200) to ensure comprehensive results.
 Filter reports by status as needed.
 Results are paginated - use the 'after' parameter with the last ID from previous results to get the next page.
@@ -1394,8 +1413,16 @@ Amounts are in the smallest currency unit (e.g., cents).
 export const createReportPrompt = `
 This tool will create a new report in Paddle.
 
-Use this tool when detailed financial data for analysis, reconciliation, or export to spreadsheet applications is needed.
+Use this tool when detailed financial data for analysis, reconciliation, auditing, or export to spreadsheet applications is needed.
 Use this tool over listTransactions when trying to gather larger amounts of data from Paddle.
+
+${metricsReportsGuidance}
+
+When to use this tool:
+- The user wants a CSV export or a list of individual records.
+- The user needs transaction-level, adjustment-level, discount-level, or product/price-level detail.
+- The user wants to reconcile data, audit historical activity, or work in a spreadsheet.
+- Do NOT use this when the user wants an aggregate trend, dashboard metric, or chart-ready timeseries. Use a metrics tool instead.
 
 Reports are generated asynchronously - a report ID will be returned that can be used to check status.
 Reports initially have 'pending' status, then move to 'ready' when available to download.
@@ -1433,6 +1460,10 @@ If successful, the response includes a copy of the new report entity.
 export const getReportCsvPrompt = `
 This tool will retrieve a link to a CSV file for a report from Paddle by its ID.
 
+Use this only after a report is ready. This returns a temporary download URL for the CSV export, not the CSV contents inline.
+
+${metricsReportsGuidance}
+
 Only returned for reports that are ready. This means Paddle has completed processing the report and it's ready to download. The status of a report can be checked using the get_report tool.
 
 The link returned isn't a permanent link. It expires after 3 minutes.
@@ -1442,6 +1473,9 @@ export const getReportPrompt = `
 This tool will retrieve a report entity from Paddle by its ID. It only contains information about the report, like the ID, status, and the date it was created. 
 
 Use this tool to check the status of a generated report, or to get the ID of a report, to then use with the get_report_csv tool to download the CSV.
+It does not return the exported rows themselves.
+
+${metricsReportsGuidance}
 `;
 
 export const listClientSideTokensPrompt = `
@@ -1496,4 +1530,214 @@ This tool will revoke a client-side token using its ID.
 When revoking a client-side token, it can no longer be used to authenticate with Paddle.js. Revoking a token is permanent and can't be undone. Create a new client-side token using the create_client_side_token tool if authentication is needed again.
 
 If successful, the response includes a copy of the revoked client-side token entity.
+`;
+
+export const getActiveSubscribersPrompt = `
+This tool will retrieve active subscriber metrics from Paddle.
+
+Returns timeseries data for active subscriber counts in a given date range. Trends have a daily granularity. Current number of paying users with active subscriptions (does not include trialling users).
+
+${metricsEnvironmentGuidance}
+
+${metricsReportsGuidance}
+
+When to use this tool:
+- The user asks about subscriber counts, subscriber growth, or how many paying customers they have.
+- The user wants to compare active subscriber levels across dates or periods.
+- Do NOT use this for revenue questions. Use the monthly recurring revenue or revenue metrics tools instead.
+- Do NOT use this for individual subscription records or subscriber details. Use subscription tools or reports instead.
+
+How to read and use the timeseries data:
+- Each datapoint contains a \`count\` field. This is a count-based metric, not a money metric.
+- Each datapoint is a snapshot of total active subscribers on that day, not the number gained that day.
+- Compare the first and last datapoints in the range to describe period-over-period growth or decline.
+- Flat periods do not necessarily mean no activity. New subscribers may be offset by churn.
+- If the user asks about trialling users, clarify that trialling subscriptions are excluded.
+
+Data freshness:
+- Use \`updated_at\` to describe when the metric was last refreshed. This is not realtime data.
+
+${metricsDateRangeGuidance}
+`;
+
+export const getMonthlyRecurringRevenuePrompt = `
+This tool will retrieve monthly recurring revenue (MRR) metrics from Paddle.
+
+Returns timeseries data for monthly recurring revenue in a given date range. Trends have a daily granularity. Current monthly recurring revenue total. Includes new subscriptions, upgrades, downgrades and churn. Does not include one-time payments or deductions for Paddle fees.
+
+${metricsEnvironmentGuidance}
+
+${metricsReportsGuidance}
+
+When to use this tool:
+- The user asks about MRR, recurring revenue, or subscription revenue trends.
+- The user wants the health of their subscription business over time.
+- Do NOT use this for total revenue including one-time payments. Use the revenue metrics tool instead.
+- Do NOT use this to explain what changed MRR. Use the monthly recurring revenue change metric alongside it.
+- Do NOT use this for individual subscription transactions. Use reports instead.
+
+How to read and use the timeseries data:
+- Each datapoint contains an \`amount\` field in the smallest currency unit.
+- \`currency_code\` is returned at the top level of \`data\`, not per datapoint. If the account's primary balance currency changes, amounts continue to use the previous currency until the next payout period begins (per Paddle API behavior).
+- Each datapoint is a snapshot of total MRR on that day, not revenue earned that day.
+- Compare the first and last datapoints to describe MRR growth or contraction across the period.
+- Convert \`amount\` to a human-readable value before presenting it.
+- Pair this with the monthly recurring revenue change metric when the user asks why MRR moved.
+- Pair this with active subscribers if the user wants MRR per subscriber.
+
+Data freshness:
+- Use \`updated_at\` to describe when the metric was last refreshed. This is not realtime data.
+
+${metricsDateRangeGuidance}
+`;
+
+export const getRevenuePrompt = `
+This tool will retrieve revenue metrics from Paddle.
+
+Returns timeseries data for revenue in a given date range. Trends have a daily granularity. Net revenue from completed payments (e.g. single purchase, subscription, B2B invoices) after tax & fees have been deducted, but before adjustments such as refunds or chargebacks.
+
+${metricsEnvironmentGuidance}
+
+${metricsReportsGuidance}
+
+When to use this tool:
+- The user asks about total revenue, earnings, or money made over time.
+- The user wants completed payment revenue across subscriptions, one-time payments, and invoices.
+- Do NOT use this for subscription-only recurring revenue. Use the monthly recurring revenue metric instead.
+- Do NOT assume this is true take-home revenue. Refunds and chargebacks are not deducted here.
+- Do NOT use this for individual transactions. Use reports instead.
+
+How to read and use the timeseries data:
+- Each datapoint contains an \`amount\` field in the smallest currency unit and a \`count\` field for the number of transactions that day.
+- Each datapoint is a daily increment, not a running total.
+- Sum the \`amount\` values across datapoints to get total revenue for the period.
+- Use \`amount / count\` to estimate average transaction value for each day when \`count\` is non-zero.
+- Watch for billing-cycle spikes before describing them as growth trends.
+- Convert \`amount\` to a human-readable value before presenting it.
+- If the user wants a truer net view, fetch refunds and chargebacks for the same period too.
+
+Data freshness:
+- Use \`updated_at\` to describe when the metric was last refreshed. This is not realtime data.
+
+${metricsDateRangeGuidance}
+`;
+
+export const getRefundsPrompt = `
+This tool will retrieve refund metrics from Paddle.
+
+Returns timeseries data for refunds in a given date range. Trends have a daily granularity. The transaction subtotal (base cost minus discounts excluding taxes and fees) of refunded products returned to the customer. This does not include chargebacks.
+
+${metricsEnvironmentGuidance}
+
+${metricsReportsGuidance}
+
+When to use this tool:
+- The user asks about refund trends, refund volume, or money returned to customers.
+- The user wants to monitor refund activity or calculate a refund rate.
+- Do NOT use this for chargebacks. Use the chargebacks metric instead.
+- Do NOT use this for individual refund records. Use adjustment, transaction, or report tools instead.
+
+How to read and use the timeseries data:
+- Each datapoint contains an \`amount\` field in the smallest currency unit.
+- Each datapoint is a daily increment, not a running total.
+- Sum the datapoint amounts to get total refunds for the period.
+- The refunded amount here is the refunded product subtotal, excluding taxes and fees.
+- Compare this metric with revenue for the same period to calculate a refund rate.
+- Spikes after launches, pricing changes, or renewal cohorts can be expected; sustained rises are the stronger signal.
+- Convert \`amount\` to a human-readable value before presenting it.
+
+Data freshness:
+- Use \`updated_at\` to describe when the metric was last refreshed. This is not realtime data.
+
+${metricsDateRangeGuidance}
+`;
+
+export const getChargebacksPrompt = `
+This tool will retrieve chargeback metrics from Paddle.
+
+Returns timeseries data for chargebacks in a given date range. Trends have a daily granularity. Total number of chargebacks received for the period. Does not include pre-chargeback alerts or chargeback reversals.
+
+${metricsEnvironmentGuidance}
+
+${metricsReportsGuidance}
+
+When to use this tool:
+- The user asks about chargebacks, disputes, or chargeback volume.
+- The user wants to monitor chargeback trends or assess payment risk.
+- Do NOT use this for refunds. Refunds and chargebacks are different concepts.
+- Do NOT use this for financial impact in currency terms or for individual dispute records. Use report or entity-level tools instead.
+
+How to read and use the timeseries data:
+- Each datapoint contains a \`count\` field. This is a count-based metric, not a money metric.
+- Each datapoint is a daily increment, not a running total.
+- Sum the datapoint counts to get total chargebacks for the period.
+- Compare total chargebacks with total transaction count from the revenue metric to calculate a chargeback rate.
+- Chargebacks usually lag the underlying transaction by weeks or months, so avoid attributing a spike only to current-period behavior.
+- Highlight sustained elevated counts over isolated spikes when discussing risk.
+
+Data freshness:
+- Use \`updated_at\` to describe when the metric was last refreshed. This is not realtime data.
+
+${metricsDateRangeGuidance}
+`;
+
+export const getCheckoutConversionPrompt = `
+This tool will retrieve checkout conversion metrics from Paddle.
+
+Returns timeseries data for checkout conversion in a given date range. Trends have a daily granularity. The conversion rate for checkouts in the period. A checkout is considered converted when a payment is successfully completed.
+
+${metricsEnvironmentGuidance}
+
+${metricsReportsGuidance}
+
+When to use this tool:
+- The user asks about checkout conversion, payment completion rate, or checkout funnel performance.
+- The user wants to understand how effectively checkouts turn into successful payments.
+- Do NOT use this for revenue amounts. Use revenue or monthly recurring revenue metrics instead.
+- Do NOT use this to debug individual failed checkouts. Use entity-level transaction tools instead.
+
+How to read and use the timeseries data:
+- Each datapoint contains \`count\`, \`completed_count\`, and \`rate\`.
+- \`count\` is total checkouts started that day.
+- \`completed_count\` is the number of those checkouts that successfully completed.
+- \`rate\` is the per-day conversion rate. Convert it to a percentage for display.
+- For an overall period conversion rate, sum all \`completed_count\` values and divide by the sum of all \`count\` values.
+- Do NOT average the daily \`rate\` values across the period; that can be misleading when daily volume changes.
+- Always present conversion rate alongside checkout volume so the result is not misleading.
+
+Data freshness:
+- Use \`updated_at\` to describe when the metric was last refreshed. This is not realtime data.
+
+${metricsDateRangeGuidance}
+`;
+
+export const getMonthlyRecurringRevenueChangePrompt = `
+This tool will retrieve monthly recurring revenue (MRR) change metrics from Paddle.
+
+Returns timeseries data for monthly recurring revenue change in a given date range. Trends have a daily granularity. Monthly recurring revenue (MRR) change compared to the same time interval last month.
+
+${metricsEnvironmentGuidance}
+
+${metricsReportsGuidance}
+
+When to use this tool:
+- The user asks about MRR growth, MRR movement, or whether recurring revenue is expanding or shrinking.
+- The user wants to understand the direction of recurring revenue, not just the total.
+- Do NOT use this for absolute MRR totals. Use the monthly recurring revenue metric instead.
+- Do NOT use this for individual subscription changes. Use reports or entity-level tools instead.
+
+How to read and use the timeseries data:
+- Each datapoint contains an \`amount\` field in the smallest currency unit.
+- \`currency_code\` is returned at the top level of \`data\`, not per datapoint. If the account's primary balance currency changes, amounts continue to use the previous currency until the next payout period begins (per Paddle API behavior).
+- Values can be positive or negative. Preserve the sign when presenting the result.
+- Each datapoint is already a daily delta. Do NOT calculate an additional delta from it.
+- Sum the datapoint amounts to get total net MRR change across the period.
+- Consistently negative values suggest recurring revenue contraction; large isolated positives may indicate dependence on a few big changes.
+- Pair this metric with the monthly recurring revenue metric so the user gets both direction and absolute level.
+- Convert \`amount\` to a human-readable value before presenting it.
+
+Data freshness:
+- Use \`updated_at\` to describe when the metric was last refreshed. This is not realtime data.
+
+${metricsDateRangeGuidance}
 `;

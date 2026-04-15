@@ -94,6 +94,13 @@ const toolMap: Record<ToolMethod, ToolFunction> = {
   [TOOL_METHODS.CREATE_CLIENT_SIDE_TOKEN]: funcs.createClientSideToken,
   [TOOL_METHODS.GET_CLIENT_SIDE_TOKEN]: funcs.getClientSideToken,
   [TOOL_METHODS.REVOKE_CLIENT_SIDE_TOKEN]: funcs.revokeClientSideToken,
+  [TOOL_METHODS.GET_ACTIVE_SUBSCRIBERS]: funcs.getActiveSubscribers,
+  [TOOL_METHODS.GET_MONTHLY_RECURRING_REVENUE]: funcs.getMonthlyRecurringRevenue,
+  [TOOL_METHODS.GET_REVENUE]: funcs.getRevenue,
+  [TOOL_METHODS.GET_REFUNDS]: funcs.getRefunds,
+  [TOOL_METHODS.GET_CHARGEBACKS]: funcs.getChargebacks,
+  [TOOL_METHODS.GET_CHECKOUT_CONVERSION]: funcs.getCheckoutConversion,
+  [TOOL_METHODS.GET_MONTHLY_RECURRING_REVENUE_CHANGE]: funcs.getMonthlyRecurringRevenueChange,
 };
 
 class PaddleAPI {
