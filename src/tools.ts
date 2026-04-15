@@ -1019,7 +1019,7 @@ const tools: Tool[] = [
     },
   },
   {
-    method: "get_active_subscribers",
+    method: "get_active_subscribers_metrics",
     name: "Get active subscriber metrics",
     description: prompts.getActiveSubscribersPrompt,
     parameters: params.getMetricsParameters,
@@ -1031,7 +1031,7 @@ const tools: Tool[] = [
     },
   },
   {
-    method: "get_monthly_recurring_revenue",
+    method: "get_monthly_recurring_revenue_metrics",
     name: "Get monthly recurring revenue metrics",
     description: prompts.getMonthlyRecurringRevenuePrompt,
     parameters: params.getMetricsParameters,
@@ -1043,7 +1043,7 @@ const tools: Tool[] = [
     },
   },
   {
-    method: "get_revenue",
+    method: "get_revenue_metrics",
     name: "Get revenue metrics",
     description: prompts.getRevenuePrompt,
     parameters: params.getMetricsParameters,
@@ -1055,7 +1055,7 @@ const tools: Tool[] = [
     },
   },
   {
-    method: "get_refunds",
+    method: "get_refunds_metrics",
     name: "Get refund metrics",
     description: prompts.getRefundsPrompt,
     parameters: params.getMetricsParameters,
@@ -1067,7 +1067,7 @@ const tools: Tool[] = [
     },
   },
   {
-    method: "get_chargebacks",
+    method: "get_chargebacks_metrics",
     name: "Get chargeback metrics",
     description: prompts.getChargebacksPrompt,
     parameters: params.getMetricsParameters,
@@ -1079,7 +1079,7 @@ const tools: Tool[] = [
     },
   },
   {
-    method: "get_checkout_conversion",
+    method: "get_checkout_conversion_metrics",
     name: "Get checkout conversion metrics",
     description: prompts.getCheckoutConversionPrompt,
     parameters: params.getMetricsParameters,
@@ -1091,7 +1091,7 @@ const tools: Tool[] = [
     },
   },
   {
-    method: "get_monthly_recurring_revenue_change",
+    method: "get_monthly_recurring_revenue_change_metrics",
     name: "Get monthly recurring revenue change metrics",
     description: prompts.getMonthlyRecurringRevenueChangePrompt,
     parameters: params.getMetricsParameters,
