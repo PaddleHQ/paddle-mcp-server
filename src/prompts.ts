@@ -1553,7 +1553,6 @@ How to read and use the timeseries data:
 - Compare the first and last datapoints in the range to describe period-over-period growth or decline.
 - Flat periods do not necessarily mean no activity. New subscribers may be offset by churn.
 - If the user asks about trialling users, clarify that trialling subscriptions are excluded.
-- Present this as a line chart or trend over time when visualising.
 
 Data freshness:
 - Use \`updated_at\` to describe when the metric was last refreshed. This is not realtime data.
@@ -1579,7 +1578,7 @@ When to use this tool:
 
 How to read and use the timeseries data:
 - Each datapoint contains an \`amount\` field in the smallest currency unit.
-- \`currency_code\` is returned at the top level of \`data\`, not per datapoint.
+- \`currency_code\` is returned at the top level of \`data\`, not per datapoint. If the account's primary balance currency changes, amounts continue to use the previous currency until the next payout period begins (per Paddle API behavior).
 - Each datapoint is a snapshot of total MRR on that day, not revenue earned that day.
 - Compare the first and last datapoints to describe MRR growth or contraction across the period.
 - Convert \`amount\` to a human-readable value before presenting it.
@@ -1729,6 +1728,7 @@ When to use this tool:
 
 How to read and use the timeseries data:
 - Each datapoint contains an \`amount\` field in the smallest currency unit.
+- \`currency_code\` is returned at the top level of \`data\`, not per datapoint. If the account's primary balance currency changes, amounts continue to use the previous currency until the next payout period begins (per Paddle API behavior).
 - Values can be positive or negative. Preserve the sign when presenting the result.
 - Each datapoint is already a daily delta. Do NOT calculate an additional delta from it.
 - Sum the datapoint amounts to get total net MRR change across the period.
