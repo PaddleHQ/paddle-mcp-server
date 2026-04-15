@@ -18,8 +18,8 @@ IMPORTANT: This tool only works with production (live) accounts. It will not ret
 const metricsReportsGuidance = `
 Metrics and reports:
 - Reports export entity-level historical data as CSV. Use them for audits, reconciliation, spreadsheets, and lists of individual transactions, refunds, discounts, or products.
-- Metrics return aggregated timeseries data directly in the API response. Use metrics tools instead for trend questions, dashboard summaries, and aggregate performance over time.
-Rule of thumb: if the user wants a list of rows, use a report. If they want a trend or headline figure, use a metrics tool.
+- Metrics return aggregated timeseries data directly in the API response. When this MCP server is configured for production, use metrics tools for trend questions, dashboard summaries, and aggregate performance over time.
+Rule of thumb: if the user wants a list of rows, use a report. If they want a trend or headline figure, use a metrics tool when this server exposes them; otherwise rely on reports.
 `;
 
 export const listProductsPrompt = `
