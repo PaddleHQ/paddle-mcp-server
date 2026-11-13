@@ -1,5 +1,15 @@
 # MCP Server for Paddle Billing
 
+> [!WARNING]
+> **This MCP server is deprecated.** The Paddle MCP server is now a hosted, remote service. This local server won't be updated with new or changed Paddle API operations.
+>
+> Connect to the remote server instead, no install needed:
+>
+> - Sandbox: `https://sandbox-mcp.paddle.com/mcp`
+> - Live: `https://mcp.paddle.com/mcp`
+>
+> For setup, see [Paddle MCP server](https://developer.paddle.com/sdks/ai/paddle-mcp?utm_source=dx&utm_medium=paddle-mcp-server).
+
 [Paddle Billing](https://www.paddle.com/billing?utm_source=dx&utm_medium=paddle-mcp-server) is the developer-first merchant of record. We take care of payments, tax, subscriptions, and metrics with one unified API that does it all.
 
 This is a [Model Context Protocol (MCP)](https://modelcontextprotocol.io/introduction) server that provides LLMs and AI agents with tools for interacting with the Paddle API.
