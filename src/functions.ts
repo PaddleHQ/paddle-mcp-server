@@ -12,21 +12,18 @@ const paginationData = (collection: PaginatedCollection) => ({
   estimatedTotal: collection.estimatedTotal,
 });
 
-// Transform comparison operator query parameters from underscore format to square bracket format
-// Example: created_at_lt becomes created_at[LT], updated_at_gte becomes updated_at[GTE]
-// Other parameters like customer_id, collection_mode are left unchanged
+// Transform camelCase operator suffixes to bracket notation for the Paddle SDK.
+// Example: createdAtGTE -> createdAt[GTE], billedAtLT -> billedAt[LT]
+// The SDK handles camelCase-to-snake_case conversion internally,
+// but it expects operators in bracket notation: createdAt[GTE], not createdAtGTE.
 const transformParams = (params: Record<string, unknown>) => {
-  const operators = ["lt", "lte", "gt", "gte"];
-  
+  const operatorPattern = /^(.+At)(LTE|LT|GTE|GT)$/;
+
   return Object.entries(params).reduce(
     (acc, [key, value]) => {
-      const parts = key.split("_");
-      const lastPart = parts[parts.length - 1];
-      
-      if (parts.length >= 2 && operators.includes(lastPart)) {
-        const operator = parts.pop()!;
-        const base = parts.join("_");
-        acc[`${base}[${operator.toUpperCase()}]`] = value;
+      const match = key.match(operatorPattern);
+      if (match) {
+        acc[`${match[1]}[${match[2]}]`] = value;
       } else {
         acc[key] = value;
       }
